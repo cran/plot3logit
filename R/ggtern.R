@@ -85,6 +85,8 @@ stat_3logit <- function(mapping = aes(), data = NULL, geom = 'segment',
   position = 'identity', show.legend = NA, inherit.aes = TRUE,
   arrow. = arrow(length = unit(0.2, 'cm')), ...) {
 
+  params <- list(arrow = arrow., ...)
+  
   if (!is.null(data)) {
   	if (inherits(data, 'field3logit')) { data %<>% fortify }
   	
@@ -97,14 +99,21 @@ stat_3logit <- function(mapping = aes(), data = NULL, geom = 'segment',
         zend = as.symbol(colnames(data)[9])
       ))
   } else {
-  	mapping %<>% utils::modifyList(list(x = NULL, y = NULL, z = NULL,
-  	  xend = NULL, yend = NULL, zend = NULL))
+  	mapping %<>% utils::modifyList(list(
+  	  x = NULL, y = NULL, z = NULL,
+  	  xend = NULL, yend = NULL, zend = NULL
+  	))
+  }
+
+  if (!is.null(data$arrow) & all(data$arrow == 'X')) {
+  	geom <- 'point'
+  	params['arrow'] <- NULL
   }
   
   ggplot2::layer(
     stat = Stat3Logit, data = data, mapping = mapping, geom = geom,
     position = position, show.legend = show.legend,
-    inherit.aes = inherit.aes, params = list(arrow = arrow., ...)
+    inherit.aes = inherit.aes, params = params
   )
 }
 
