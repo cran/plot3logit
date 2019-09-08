@@ -2,9 +2,21 @@
 % Please edit documentation in R/read-model.R
 \name{read_model}
 \alias{read_model}
+\alias{read_from_multinom}
+\alias{read_from_polr}
+\alias{read_from_mlogit}
+\alias{read_from_matrix}
 \title{Builds up matrix of coefficients from fitted models}
 \usage{
 read_model(model, type, alpha)
+
+read_from_multinom(model, ...)
+
+read_from_polr(model, ...)
+
+read_from_mlogit(model, ...)
+
+read_from_matrix(model, ...)
 }
 \arguments{
 \item{model}{see \code{\link{field3logit}}.}
@@ -15,9 +27,11 @@ by \code{\link{field3logit}} when \code{\link{read_model}} is called.}
 \item{alpha}{see \code{\link{field3logit}}.}
 }
 \value{
-A named \code{list} with the following components:
+\code{read_model} returns a named \code{list} with the following components:
 
 \item{B}{matrix of coefficients.}
+\item{vcovB}{variance-covariance matrix of coefficients.}
+\item{alpha}{see \code{\link{field3logit}}.}
 \item{model}{argument \code{type}.}
 \item{ordinal}{\code{logical} variable indicating wheter the model is
 ordinal or not.}
@@ -27,9 +41,9 @@ ordinal or not.}
 the field should pass through (see \code{\link{DeltaB2pc}}).}
 }
 \description{
-It reads arguments \code{model}, \code{ordinal}, \code{type} and \code{alpha} passed
-by function \code{\link{field3logit}} and properly sets the matrix of
-coefficient and the other needed model-specific functions.
+\code{read_model} reads arguments \code{model}, \code{ordinal}, \code{type} and \code{alpha} passed
+by function \code{\link{field3logit}} and properly sets the matrix of coefficients
+and the other needed model-specific functions.
 }
 \seealso{
 \code{\link{plot3logit-package}}, \code{\link{field3logit}}.

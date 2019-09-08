@@ -73,7 +73,7 @@ is_simplified_field3logit <- function(x) {
 #'   the ternary plot area. See Examples.
 #' @param alpha `numeric` vector of length two where constants \eqn{\alpha^{(1)}}
 #'   and \eqn{\alpha^{(2)}} are stored (only for ordinal models), as
-#'   defined in Equation (7) of Santi, Dickson and Espa (2018).
+#'   defined in Equation (7) of Santi, Dickson and Espa (2019).
 #' @param ncurves number of curves of the field to be computed. In case
 #'   of ordinal models, this parameter is ineffective, as only one curve
 #'   can be drawn. The parameter is ineffective also in case that argument
@@ -153,7 +153,7 @@ field3logit <- function(model, delta, label = '<empty>', p0 = NULL,
   names(out) %<>% paste0('C', 1:length(out), .)
   out <- list(B = modB$B, alpha = modB$alpha, delta = delta,
     vdelta = vdelta, lab = modB$lab, readfrom = modB$readfrom,
-    effects = out, label = label)
+    effects = out, label = label, vcovB = modB$vcovB)
   class(out) <- 'field3logit'
   out
 }
@@ -184,6 +184,8 @@ print.field3logit <- function(x, ...) {
     unlist %>%
     sum -> na
   
+  vcovB <- ifelse(is.null(x$vcovB), 'not available', 'available')
+  
   cat(' Object of class "field3logit"\n')
   cat('-------------------------------\n')
   cat('Label                    :', x$label, '\n')
@@ -197,6 +199,7 @@ print.field3logit <- function(x, ...) {
   cat('Model has been read from :', x$readfrom, '\n')
   cat('Number of curves         :', length(x$effects), '\n')
   cat('Number of arrows         :', na, '\n')
+  cat('Covariance matrix        :', vcovB, '\n')
 
   invisible(x)
 }

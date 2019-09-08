@@ -1,4 +1,27 @@
 
+# plot3logit 1.0.2
+
+
+## Major changes
+
+* Vignette "plot3logit-overview" has been added to the package.
+* Updated dependencies by including package "ellipse" amongst imported packages
+
+
+## Minor changes
+
+* The level "Long" of variable "irregulariry" of dataset "cross_1year" has
+  been changed to "High".
+
+
+## Typos and other marginal changes
+
+* Updated references to Santi, Dickson and Espa (2019).
+
+
+
+
+
 # plot3logit 1.0.1
 
 
