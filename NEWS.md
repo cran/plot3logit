@@ -1,17 +1,59 @@
 
+
+# plot3logit 2.0.0
+
+
+## Major changes
+
+* Added functions for computing the confidence regions of the covariate effects
+  of categorical trilogit models and function for representing confidence
+  regions both in standard an gg graphics.
+* Changed dependencies of the package both in section "Depends" (updated the
+  version of ggtern) and in section "Imports" (added `dplyr`, `forcats`,
+  `grDevices`, `lifecycle`, `purrr`, `Rdpack`, `tibble`, `tidyr`, `tidyselect`
+  and removed `reshape2`).
+* Added the `plot` function for `multifield3logit` in standard graphics.
+* Updated the functions for reading the output of `mlogit` according to the
+  upcoming new version of the package. The package `plot3logit` handles the
+  output of both the current and the upcoming version of `mlogit`.
+* Completely redefined the output of methods `as.data.frame` and `fortify` for
+  objects of class `field3logit` and `multifield3logit`.
+* Function `plot3logit` is now deprecated and not updated.
+* Partially redefined function `stat_3logit` and added function
+  `stat_field3logit` which works like the previous version of `stat_3logit`.
+  
+
+
+## Minor changes
+
+* Added methods `coef` and `vcov` for objects of class `field3logit` and
+  `multifield3logit`.
+
+
+
+## Typos and other marginal changes
+
+* Added zero element (NULL) in the sum of `field3logit` and `multifield3logit`.
+* Added attribute `ordinal` to S3 class `field3logit` and updated the S3 method
+ `print`.
+
+
+
+
+
 # plot3logit 1.0.2
 
 
 ## Major changes
 
-* Vignette "plot3logit-overview" has been added to the package.
-* Updated dependencies by including package "ellipse" amongst imported packages
+* Vignette `plot3logit-overview` has been added to the package.
+* Updated dependencies by including package "ellipse" amongst imported packages.
 
 
 ## Minor changes
 
-* The level "Long" of variable "irregulariry" of dataset "cross_1year" has
-  been changed to "High".
+* The level `Long` of variable `irregulariry` of dataset `cross_1year` has
+  been changed to `High`.
 
 
 ## Typos and other marginal changes

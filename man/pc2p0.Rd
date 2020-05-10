@@ -11,7 +11,7 @@ pc2p0_single(pc, DeltaB, w, edge, flink)
 }
 \arguments{
 \item{pc}{\code{list} of ternary coordinates, as returned by
-\code{\link{DeltaB2pc_cat3logit}} or \code{\link{DeltaB2pc_ord3logit}}.
+\code{\link[=DeltaB2pc_cat3logit]{DeltaB2pc_cat3logit()}} or \code{\link[=DeltaB2pc_ord3logit]{DeltaB2pc_ord3logit()}}.
 Function \code{pc2p0_single} accepts only a single point
 (that is a \code{numeric} vector of length three).}
 
@@ -29,12 +29,12 @@ the latter is its inverse.}
 \value{
 A named \code{list} with two components:
 \item{status}{a \code{character} always equal to \code{"p0"}
-(see section \emph{Value} of \code{\link{DeltaB2pc}}).}
+(see section \emph{Value} of \code{\link[=DeltaB2pc]{DeltaB2pc()}}).}
 \item{pp}{a \code{list} of ternary coordinates.}
 }
 \description{
-Given the output of \code{\link{DeltaB2pc_cat3logit}} or
-\code{\link{DeltaB2pc_ord3logit}}, the coordinates of points on the
+Given the output of \code{\link[=DeltaB2pc_cat3logit]{DeltaB2pc_cat3logit()}} or
+\code{\link[=DeltaB2pc_ord3logit]{DeltaB2pc_ord3logit()}}, the coordinates of points on the
 edge are computed for each curve of the field of points
 given in input.
 }

@@ -13,8 +13,8 @@ is_simplified_field3logit(x)
 \item{x}{an object of class \code{field3logit}.}
 }
 \description{
-Given an object of class \code{field3logit}, \code{simplify_field3logit} returns
-it in the simplified form. Function \code{is_simplified_field3logit} tests
+Given an object of class \code{field3logit}, \code{\link[=simplify_field3logit]{simplify_field3logit()}} returns
+it in the simplified form. Function \code{\link[=is_simplified_field3logit]{is_simplified_field3logit()}} tests
 whether an object of class \code{field3logit} is in the simplified form.
 }
 \keyword{internal}

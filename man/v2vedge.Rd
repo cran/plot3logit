@@ -15,7 +15,7 @@ v2vedge(v, edge)
 \code{numeric} vector of ternary coordinates of the vertex on the edge.
 }
 \description{
-Given the coordinates of one of vertices, \code{v2vedge} computes the
+Given the coordinates of one of vertices, \code{\link[=v2vedge]{v2vedge()}} computes the
 coordinates of the vertex on the edge.
 }
 \examples{

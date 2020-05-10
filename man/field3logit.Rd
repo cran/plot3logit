@@ -2,26 +2,42 @@
 % Please edit documentation in R/field3logit.R
 \name{field3logit}
 \alias{field3logit}
-\alias{plot3logit}
 \alias{print.field3logit}
 \alias{plot.field3logit}
+\alias{as_tibble.field3logit}
 \alias{as.data.frame.field3logit}
 \alias{fortify.field3logit}
+\alias{coef.field3logit}
+\alias{vcov.field3logit}
 \title{Computation of the vector field}
 \usage{
-field3logit(model, delta, label = "<empty>", p0 = NULL, alpha = NULL,
-  ncurves = 8, narrows = Inf, edge = 0.01)
-
-plot3logit(model, delta, label = "<empty>", p0 = NULL, alpha = NULL,
-  ncurves = 8, narrows = Inf, edge = 0.01, ...)
+field3logit(
+  model,
+  delta,
+  label = "<empty>",
+  p0 = NULL,
+  alpha = NULL,
+  vcov = NULL,
+  ncurves = 8,
+  narrows = Inf,
+  edge = 0.01,
+  conf = NA,
+  npoints = 100
+)
 
 \method{print}{field3logit}(x, ...)
 
 \method{plot}{field3logit}(x, ..., add = FALSE, length = 0.05)
 
+\method{as_tibble}{field3logit}(x, ..., wide = TRUE)
+
 \method{as.data.frame}{field3logit}(x, ..., wide = TRUE)
 
 \method{fortify}{field3logit}(model, data, ...)
+
+\method{coef}{field3logit}(object, ...)
+
+\method{vcov}{field3logit}(object, ...)
 }
 \arguments{
 \item{model}{either a fitted trinomial model or a matrix of regressor
@@ -35,7 +51,7 @@ expression involving one or more than one covariates (passed either as
 a \code{character} or an \code{expression}). See details and examples.}
 
 \item{label}{label to be used for identifying the field when multiple
-fields are plotted. See \code{\link{multifield3logit}}.}
+fields are plotted. See \code{\link[=multifield3logit]{multifield3logit()}}.}
 
 \item{p0}{\code{list} of starting points (ternary coordinates) of the curves
 of the field. If not specified, \code{field3logit} automatically compute
@@ -44,7 +60,13 @@ the ternary plot area. See Examples.}
 
 \item{alpha}{\code{numeric} vector of length two where constants \eqn{\alpha^{(1)}}
 and \eqn{\alpha^{(2)}} are stored (only for ordinal models), as
-defined in Equation (7) of Santi, Dickson and Espa (2019).}
+defined in Equation (7) of \insertCite{santi2019;textual}{plot3logit}.}
+
+\item{vcov}{(\strong{only if} the model is read from a matrix, otherwise it will
+be ignored) variance-covariance matrix of parameter estimates. The elements
+of the variance-covariance matrix should be ordered according to the matrix
+of parameter estimates where the categories of the dependent variable are
+the slow index, whereas the covariates are the fast index.}
 
 \item{ncurves}{number of curves of the field to be computed. In case
 of ordinal models, this parameter is ineffective, as only one curve
@@ -56,9 +78,15 @@ can be drawn. The parameter is ineffective also in case that argument
 \item{edge}{minimum distance between each arrow (or point) and
 the edge of the ternary plot.}
 
-\item{...}{other arguments passed to or from other methods.}
+\item{conf}{confidence level of confidence regions to be computed \strong{for each
+arrow} of the field.}
 
-\item{x}{object of class \code{field3logit}.}
+\item{npoints}{number of points of the border to be computed \strong{for each
+confidence region}.}
+
+\item{x, object}{object of class \code{field3logit}.}
+
+\item{...}{other arguments passed to or from other methods.}
 
 \item{add}{\code{logical} argument which specifies whether the field
 should be added to an existing plot (\code{add = TRUE}) or a new
@@ -76,13 +104,13 @@ the generic \code{fortify}.}
 \code{S3} object of class \code{field3logit} structured as a named \code{list}.
 }
 \description{
-\code{field3logit} computes the vector field associated to a change in regressior
-values (which may involve more than one regressor) of a trinomial logit
-model either fitted by some multinomial regression function or explicitly
-specified.
+\code{\link[=field3logit]{field3logit()}} computes the vector field associated to a change in
+regressior values (which may involve more than one regressor) of a trinomial
+logit model either fitted by some multinomial regression function or
+explicitly specified.
 
-\code{plot3logit} and \code{plot} method draw the ternary plot using standard graphics
-methods provided by package \code{Ternary}. See function \code{\link{gg3logit}} for plotting
+The method \code{\link[=plot]{plot()}} draws the ternary plot using standard graphics methods
+provided by package \code{Ternary}. See function \code{\link[=gg3logit]{gg3logit()}} for plotting
 through the package \code{\link[ggtern:ggtern-package]{ggtern}} based on the grammar
 of graphics.
 }
@@ -104,6 +132,7 @@ specification of vector \eqn{\Delta x\in\bm{R}^k}.
 See examples for comparing all three methods.
 }
 \examples{
+\dontrun{
 data(cross_1year)
 
 # Model fit
@@ -113,24 +142,22 @@ mod0
 
 # Assessing the effect of "finalgradeHigh" (explicit notation)
 field0 <- field3logit(mod0, c(0, 0, 1, 0, 0, 0))
-gg3logit(field0) + stat_3logit()
+gg3logit(field0) + stat_field3logit()
 
 # Assessing the effect of "finalgradeHigh" (implicit notation)
 field0 <- field3logit(mod0, 'finalgradeHigh')
-gg3logit(field0) + stat_3logit()
+gg3logit(field0) + stat_field3logit()
 
 # Assessing the combined effect of "finalgradeHigh" and
 # a decrease of "hsscore" by 10
 field0 <- field3logit(mod0, 'finalgradeHigh - 10 * hsscore')
-gg3logit(field0) + stat_3logit()
+gg3logit(field0) + stat_field3logit()
+}
 
 }
 \references{
-Santi F., M. M. Dickson, G. Espa (2019)
-"A graphical tool for interpreting regression coefficients of trinomial logit
-models", \emph{The American Statistician}, \strong{73}(2), pp. 200-207.
-\doi{10.1080/00031305.2018.1442368}
+\insertAllCited{}
 }
 \seealso{
-\code{\link{multifield3logit}}, \code{\link{gg3logit}}.
+\code{\link[=multifield3logit]{multifield3logit()}}, \code{\link[=gg3logit]{gg3logit()}}, \code{\link[=autoplot]{autoplot()}}.
 }

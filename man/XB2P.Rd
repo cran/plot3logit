@@ -2,12 +2,17 @@
 % Please edit documentation in R/XB2P.R
 \name{XB2P}
 \alias{XB2P}
+\alias{X2P}
 \alias{XB2P_cat3logit}
 \alias{X2P_cat3logit}
 \alias{XB2P_ord3logit}
 \alias{X2P_ord3logit}
 \title{Computes trinomial probability distributions implied by linear predictors}
 \usage{
+XB2P(XB, model)
+
+X2P(X, B, model)
+
 XB2P_cat3logit(XB)
 
 X2P_cat3logit(X, B)
@@ -21,6 +26,8 @@ X2P_ord3logit(X, B, alpha)
 \eqn{XB\in\textbf{R}^{n\times 2}} for \emph{categorical} models or
 \eqn{XB\in\textbf{R}^n} for \emph{ordinal} models.}
 
+\item{model}{object of class \code{field3logit}.}
+
 \item{X}{object of class \code{matrix} (or other coercible classes) such that
 \eqn{X\in\textbf{R}^{n\times k}}.}
 
@@ -30,7 +37,7 @@ X2P_ord3logit(X, B, alpha)
 
 \item{alpha}{\code{numeric} vector of length two where constants \eqn{\alpha^{(1)}}
 and \eqn{\alpha^{(2)}} are stored (only for ordinal models), as
-defined in Equation (7) of Santi, Dickson and Espa (2019).}
+defined in Equation (7) of \insertCite{santi2019;textual}{plot3logit}.}
 }
 \value{
 Numeric matrix \eqn{[0,\,1]^{n\times 3}} of probability distributions.
@@ -42,13 +49,11 @@ dependent variable for categorical and ordinal models respectively.
 Functions \code{X2P_cat3logit} and \code{X2P_ord3logit} perform the same computation,
 except that the design matrix \eqn{X\in\textbf{R}^{n\times k}} and
 the coefficient matrix \eqn{B\in\textbf{R}^{k\times 2}} are taken as
-separate input arguments.
+separate input arguments. \code{XB2P} and \code{X2P} apply the proper function
+according to the type of model passed to argument \code{model}.
 }
 \references{
-Santi F., M. M. Dickson, G. Espa (2019)
-"A graphical tool for interpreting regression coefficients of trinomial logit
-models", \emph{The American Statistician}, \strong{73}(2), pp. 200-207.
-\doi{10.1080/00031305.2018.1442368}
+\insertAllCited{}
 }
 \seealso{
 \code{\link{P2XB}}.

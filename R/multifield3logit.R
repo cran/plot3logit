@@ -2,27 +2,24 @@
 #' Multiple trilogit fields
 #'
 #' Methods of `S3` class `multifield3logit` handle multiple `fields3logit`
-#' objects simultaneously and permit new `multifield3logit` object to be
-#' easily created by means of the sum operator `+`. The [`fortify`] method
-#' of `multifield3logit` permits multiple `field3logit` objects to be easily
-#' handled by [`gg3logit`] and `ggtern`-based functions and methods. See
-#' Examples.
+#' objects simultaneously and permit new `multifield3logit` objects to be
+#' easily created by means of the sum operator "`+`".
 #'
-#' @param x,y object of class `field3logit` or `multifield3logit`.
+#' @param x,y,model object of class `field3logit` or `multifield3logit`.
 #' @inheritParams field3logit
 #' @param ... other arguments passed to or from other methods.
 #' @param maxitems maximum number of items to be enumerated when an object of
 #'   class `multifield3logit` is printed.
+#' @param col,legend graphical parameters if `Ternary` package is used.
 #'
 #' @return
 #' `S3` object of class `multifield3logit` structured as a named `list`.
 #'
-#' @family `gg` functions
-#'
 #' @seealso
-#' [`field3logit`].
+#' [field3logit()].
 #'
 #' @examples
+#' \dontrun{
 #' data(cross_1year)
 #'
 #' mod0 <- nnet::multinom(employment_sit ~ ., data = cross_1year)
@@ -34,7 +31,7 @@
 #'   label = 'High final grade')
 #'
 #' gg3logit(field_Sdur + field_Hfgr) +
-#'   stat_3logit() +
+#'   stat_field3logit()
 #'   facet_wrap(~ label)
 #'
 #' refpoint <- list(c(0.7, 0.15, 0.15))
@@ -52,11 +49,14 @@
 #' mfields
 #'
 #' gg3logit(mfields) +
-#'   stat_3logit(aes(colour = label)) +
+#'   stat_field3logit(aes(colour = label)) +
 #'   theme_zoom_L(0.45)
+#' }
 #'
 #' @export
 multifield3logit <- function(x, ...) {
+  if (is.null(x)) { return(NULL) }
+  
   depo <- inherits(x, c('field3logit','multifield3logit'), which = TRUE)
   if (all(depo == 0)) {
   	stop('Only objects of class "field3logit" and "multifield3logit" are allowed')
@@ -114,7 +114,34 @@ print.multifield3logit <- function(x, maxitems = 10, ...) {
 fortify.multifield3logit <- function(model, data, ...) {
   lapply(model, fortify) %>%
     Reduce(rbind, .) %>%
+    mutate(group = forcats::fct_anon(factor(paste0(.$label, .$idarrow)), 'H')) %>%
     return
+}
+
+
+#' @rdname multifield3logit
+#' @export
+plot.multifield3logit <- function(x, y = NULL, add = FALSE, col = NA,
+  legend = TRUE, ...) {
+  	
+  x %<>% add(y)
+  
+  if (is.null(col)) { col <- 'black' }
+  if (is.na(col)) { col <- 1:length(x) }
+  if (length(col) == 1) { col %<>% rep(length(x)) }
+  
+  lapply(1:length(x), function(j) {
+  	plot(x[[j]], add = (j > 1) + (j == 1) * add, col = col[j], ...)
+  }) -> out
+  
+  if (legend) {
+  	legend(
+  	  x = 'topright', legend = names(x),
+  	  col = col, lwd = 2
+  	)
+  }
+  
+  invisible(out)
 }
 
 

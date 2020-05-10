@@ -7,35 +7,73 @@
 gg3logit(data = NULL, mapping = aes(), ...)
 }
 \arguments{
-\item{data}{a \code{field3logit} or a \code{multifield3logit} object. If not
-specified, must be supplied in each layer added to the plot.}
+\item{data}{a \code{field3logit} object, a \code{multifield3logit} object, or
+a \code{data.frame} structured like a fortified \code{field3logit} or a
+\code{multifield3logit} object. If a \code{field3logit} or a \code{multifield3logit}
+is passed, none of the aestetics mappings listed in Section
+"Aesthetic mappings" below has to be specified.}
 
-\item{mapping}{list of aesthetic mappings to use for plot. If not
-specified, must be supplied in each layer added to the plot. \strong{Note
-that} mappings \code{x}, \code{y} and \code{z} are \strong{not} required: they will be
-overwritten if specified (see examples).}
+\item{mapping}{list of aesthetic mappings to use for plot. If a
+\code{field3logit} or a \code{multifield3logit} is passed to \code{data}, none of the
+aestetics mappings listed in section \emph{Aesthetic mappings} below has to be
+specified (if specified, they will be overwritten).}
 
 \item{...}{additional arguments passed through to \code{\link[ggtern:ggtern]{ggtern}}.}
 }
 \description{
-\code{gg3logit} initializes a \code{\link[ggplot2:ggplot]{ggplot}} object through
+\code{gg3logit} initialises a \code{\link[ggplot2:ggplot]{ggplot}} object through
 \code{\link[ggtern:ggtern]{ggtern}}. If a fortified \code{field3logit} or a
-\code{multifield3logit} object is passed as argument \code{data} to \code{gg3logit},
-the labels of the ternary plot are automatically. The same happens if a
-\code{field3logit} or a \code{multifield3logit} object is passed; in that case,
-\code{gg3logit} preliminarly invoke the \code{fortify} method.
+\code{multifield3logit} object is passed to argument \code{data}, the mandatory
+aestetics of the ternary plot are automatically set.
 }
+\section{Aesthetic mappings}{
+
+
+The following aestetics are required by at least one of the available stats.
+None of them should be specified if a \code{field3logit} or a \code{multifield3logit}
+is passed to the argument \code{data} of \code{\link[=gg3logit]{gg3logit()}}, \code{\link[=stat_field3logit]{stat_field3logit()}} or
+\code{\link[=stat_conf3logit]{stat_conf3logit()}}:
+\itemize{
+\item \code{x}, \code{y}, \code{z} are required by:
+\itemize{
+\item \code{\link[=stat_field3logit]{stat_field3logit()}} as ternary coordinates of the starting points of the
+arrows;
+\item \code{\link[=stat_conf3logit]{stat_conf3logit()}} ternary coordinates of the points on the border of
+confidence regions;
+}
+\item \code{xend}, \code{yend}, \code{zend}: required by \code{\link[=stat_field3logit]{stat_field3logit()}} as ternary
+coordinates of the ending points of the arrows;
+\item \code{group}: identifier of groups of graphical objets (arrows and their confidence
+regions);
+\item \code{type}: type of graphical object (arrows or confidence regions).
+}
+
+The following variables of a fortified \code{field3logit} or a \code{multifield3logit}
+object may be useful for defining other standard aestetics (such as \code{fill},
+\code{colour}, ...):
+\itemize{
+\item \code{label} identifies a field through a label, thus it is useful for
+distinguishing the fields in a \code{multifield3logit} object.
+\item \code{idarrow} identifies each group of graphical objets (arrows and their
+confidence regions) \emph{within} every field. Unlike variable \code{group},
+\code{idarrow} is not a global identifier of graphical objets.
+}
+}
+
 \examples{
 data(cross_1year)
 
 mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
 field0 <- field3logit(mod0, 'genderFemale')
 
-gg3logit(field0) + stat_3logit()
+gg3logit(field0) + stat_field3logit()
 
 }
 \seealso{
-Other `gg` functions: \code{\link{multifield3logit}},
-  \code{\link{stat_3logit}}
+Other gg functions: 
+\code{\link{autoplot}()},
+\code{\link{stat_3logit}()},
+\code{\link{stat_conf3logit}()},
+\code{\link{stat_field3logit}()}
 }
-\concept{`gg` functions}
+\concept{gg functions}

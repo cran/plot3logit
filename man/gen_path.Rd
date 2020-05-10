@@ -34,6 +34,6 @@ generates the path of arrows until the edge of the ternary plot is
 reached.
 }
 \seealso{
-\code{\link{P2XB}}, \code{\link{XB2P}}.
+\code{\link[=P2XB]{P2XB()}}, \code{\link[=XB2P]{XB2P()}}.
 }
 \keyword{internal}

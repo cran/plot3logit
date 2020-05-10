@@ -11,21 +11,21 @@ effect(x, y, ..., length = 0.05)
 the probability distribution is unchanged, \code{x} and \code{y} should
 have length one.}
 
-\item{...}{\link{graphical parameters} such as \code{xpd} and the line
+\item{...}{\link[graphics]{graphical parameters} such as \code{xpd} and the line
     characteristics \code{lend}, \code{ljoin} and \code{lmitre}:
-    see \code{\link{par}}.}
+    see \code{\link[graphics]{par}}.}
 
 \item{length}{length of the edges of the arrow head (in inches).}
 }
 \description{
 Given the first two probabilities of a trinomial distribution
-before and after a change, \code{effect} adds an arrow to an existing
+before and after a change, \code{\link[=effect]{effect()}} adds an arrow to an existing
 ternary plot. If the probability distribution does not change, a
 point (instead of an arrow) is added to the plot.
 }
 \section{Warning}{
 
-Only when \code{effect} is passed to \code{\link[Ternary:AddToTernary]{AddToTernary}}
+Only when \code{\link[=effect]{effect()}} is passed to \code{\link[Ternary:AddToTernary]{AddToTernary}}
 as the first argument, arrows and points are drawn consistently
 with ternary coordinate system, otherwise \code{effect} draws both
 arrows and points according to a Cartesian coorinate system

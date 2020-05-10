@@ -1,8 +1,42 @@
 
+prepare_arrow <- function(comp, from, to) {
+  tibble(comp = comp, from = from, to = to) %>%
+    pivot_longer(cols = c('from', 'to'), names_to = 'role') %>%
+    dplyr::arrange('role') %>%
+    mutate(comp = paste0(.$comp, ifelse(.$role == 'from', '', '_to'))) %>%
+    select(-'role') %>%
+    pivot_wider(names_from = 'comp') %>%
+    return
+}
+
+
+prepare_block <- function(label, idarrow, comp, from, to, confregion) {
+  # Prepare arrows
+  tibble(type = 'arrow', comp = comp, from = from, to = to) %>%
+    pivot_longer(cols = c('from', 'to'), names_to = 'role') -> depo
+  
+  # Prepare confidence regions
+  if (!is.null(confregion)) {
+  	confregion %>%
+      pivot_longer(cols = 1:3, names_to = 'comp') %>%
+      mutate(role = 'from', type = 'region') %>%
+      select('type', 'comp', 'role', 'value') %>%
+      bind_rows(depo) -> depo
+  }
+  
+  # Complete output
+  depo %>%
+    mutate(label = label, idarrow = idarrow, group = NA) %>%
+    select('label', 'idarrow', 'group', tidyselect::everything()) %>%
+    return
+}
+
+
+
 #' `field3logit` simplification function and test
 #'
-#' Given an object of class `field3logit`, `simplify_field3logit` returns
-#' it in the simplified form. Function `is_simplified_field3logit` tests
+#' Given an object of class `field3logit`, [simplify_field3logit()] returns
+#' it in the simplified form. Function [is_simplified_field3logit()] tests
 #' whether an object of class `field3logit` is in the simplified form.
 #'
 #' @param x an object of class `field3logit`.
@@ -33,13 +67,13 @@ is_simplified_field3logit <- function(x) {
 #'
 #' @description
 #'
-#' `field3logit` computes the vector field associated to a change in regressior
-#' values (which may involve more than one regressor) of a trinomial logit
-#' model either fitted by some multinomial regression function or explicitly
-#' specified.
+#' [field3logit()] computes the vector field associated to a change in
+#' regressior values (which may involve more than one regressor) of a trinomial
+#' logit model either fitted by some multinomial regression function or
+#' explicitly specified.
 #'
-#' `plot3logit` and `plot` method draw the ternary plot using standard graphics
-#' methods provided by package `Ternary`. See function [`gg3logit`] for plotting
+#' The method [plot()] draws the ternary plot using standard graphics methods
+#' provided by package `Ternary`. See function [gg3logit()] for plotting
 #' through the package [`ggtern`][ggtern::ggtern-package] based on the grammar
 #' of graphics.
 #'
@@ -59,6 +93,7 @@ is_simplified_field3logit <- function(x) {
 #'
 #' See examples for comparing all three methods.
 #'
+#' @inheritParams effect
 #' @param model either a fitted trinomial model or a matrix of regressor
 #'   coefficients. See section *Compatibility* and examples of
 #'   [`plot3logit-package`].
@@ -73,7 +108,7 @@ is_simplified_field3logit <- function(x) {
 #'   the ternary plot area. See Examples.
 #' @param alpha `numeric` vector of length two where constants \eqn{\alpha^{(1)}}
 #'   and \eqn{\alpha^{(2)}} are stored (only for ordinal models), as
-#'   defined in Equation (7) of Santi, Dickson and Espa (2019).
+#'   defined in Equation (7) of \insertCite{santi2019;textual}{plot3logit}.
 #' @param ncurves number of curves of the field to be computed. In case
 #'   of ordinal models, this parameter is ineffective, as only one curve
 #'   can be drawn. The parameter is ineffective also in case that argument
@@ -81,28 +116,40 @@ is_simplified_field3logit <- function(x) {
 #' @param narrows maximum number of arrows to be drawn per curve.
 #' @param edge minimum distance between each arrow (or point) and
 #'   the edge of the ternary plot.
-#' @param x object of class `field3logit`.
+#' @param x,object object of class `field3logit`.
 #' @param add `logical` argument which specifies whether the field
 #'   should be added to an existing plot (`add = TRUE`) or a new
 #'   ternary plot should be drawn (`add = FALSE`).
 #' @param ... other arguments passed to or from other methods.
 #' @param wide it allows to choose whether `as.data.frme` should return a
 #'   `data.frame` object in wide (default) or long form.
-#' @inheritParams effect
 #' @param label label to be used for identifying the field when multiple
-#'   fields are plotted. See [`multifield3logit`].
+#'   fields are plotted. See [multifield3logit()].
 #' @param data not used. Argument included only for interface compatibility with
 #'   the generic `fortify`.
+#' @param conf confidence level of confidence regions to be computed **for each
+#'   arrow** of the field.
+#' @param npoints number of points of the border to be computed **for each
+#'   confidence region**.
+#' @param vcov (**only if** the model is read from a matrix, otherwise it will
+#'   be ignored) variance-covariance matrix of parameter estimates. The elements
+#'   of the variance-covariance matrix should be ordered according to the matrix 
+#'   of parameter estimates where the categories of the dependent variable are
+#'   the slow index, whereas the covariates are the fast index.
 #'
 #' @return
 #' `S3` object of class `field3logit` structured as a named `list`.
 #'
 #' @seealso
-#' [`multifield3logit`], [`gg3logit`].
+#' [multifield3logit()], [gg3logit()], [autoplot()].
 #'
 #' @inherit cross_1year references
 #'
+#' @references
+#' \insertAllCited{}
+#'
 #' @examples
+#' \dontrun{
 #' data(cross_1year)
 #'
 #' # Model fit
@@ -112,23 +159,25 @@ is_simplified_field3logit <- function(x) {
 #' 
 #' # Assessing the effect of "finalgradeHigh" (explicit notation)
 #' field0 <- field3logit(mod0, c(0, 0, 1, 0, 0, 0))
-#' gg3logit(field0) + stat_3logit()
+#' gg3logit(field0) + stat_field3logit()
 #'
 #' # Assessing the effect of "finalgradeHigh" (implicit notation)
 #' field0 <- field3logit(mod0, 'finalgradeHigh')
-#' gg3logit(field0) + stat_3logit()
+#' gg3logit(field0) + stat_field3logit()
 #' 
 #' # Assessing the combined effect of "finalgradeHigh" and
 #' # a decrease of "hsscore" by 10
 #' field0 <- field3logit(mod0, 'finalgradeHigh - 10 * hsscore')
-#' gg3logit(field0) + stat_3logit()
+#' gg3logit(field0) + stat_field3logit()
+#' }
 #'
 #' @export
 field3logit <- function(model, delta, label = '<empty>', p0 = NULL,
-  alpha = NULL, ncurves = 8, narrows = Inf, edge = 0.01) {
+  alpha = NULL, vcov = NULL, ncurves = 8, narrows = Inf, edge = 0.01,
+  conf = NA, npoints = 100) {
 
   # Read input
-  modB <- read_model(model, 'logit', alpha)
+  modB <- read_model(model, 'logit', alpha, vcov)
   vdelta <- get_vdelta(delta, modB)
   DeltaB <- as.numeric(crossprod(vdelta, modB$B))
 
@@ -138,40 +187,35 @@ field3logit <- function(model, delta, label = '<empty>', p0 = NULL,
       pc2p0(DeltaB, edge, modB[c('XB2P','P2XB')]) -> p0
   } else {
     p0 <- list(pp = p0)
-    p0$status <- ifelse(all(DeltaB == 0),'p','p0')
+    p0$status <- ifelse(all(DeltaB == 0), 'p', 'p0')
   }
 
   # Compute the arrows
   if (p0$status == 'p') {
-    out <- p0$pp
+  	lapply(p0$pp, function(x) {
+  	  list(A1 = list(from = x, to = rep(NA, 3)))
+  	}) -> out
   } else {
     out <- lapply(p0$pp, gen_path, DeltaB = DeltaB,
       edge = edge, nmax = narrows, flink = modB[c('XB2P','P2XB')])
   }
 
-  # Output
+  # Create field3logit object
   names(out) %<>% paste0('C', 1:length(out), .)
   out <- list(B = modB$B, alpha = modB$alpha, delta = delta,
     vdelta = vdelta, lab = modB$lab, readfrom = modB$readfrom,
-    effects = out, label = label, vcovB = modB$vcovB)
+    effects = out, label = label, vcovB = modB$vcovB,
+    ordinal = modB$ordinal, conf = conf
+  )
   class(out) <- 'field3logit'
+  
+  # Compute the confidence regions
+  if (!is.null(out$vcov) & !is.na(conf)) {
+  	out %<>% add_confregions(conf, npoints)
+  }
+  
+  # Output
   out
-}
-
-
-
-#' @rdname field3logit
-#' @export
-plot3logit <- function(model, delta, label = '<empty>', p0 = NULL,
-  alpha = NULL, ncurves = 8, narrows = Inf, edge = 0.01, ...) {
-
-  depo <- field3logit(model = model, delta = delta, p0 = p0,
-    alpha = alpha, ncurves = ncurves, narrows = narrows,
-    edge = edge, label = label)
-  
-  graphics::plot(depo, ...)
-  
-  invisible(depo)
 }
 
 
@@ -183,13 +227,16 @@ print.field3logit <- function(x, ...) {
     lapply(length) %>%
     unlist %>%
     sum -> na
-  
+ 
+  type  <- ifelse(x$ordinal, 'ordinal', 'categorical')
   vcovB <- ifelse(is.null(x$vcovB), 'not available', 'available')
+  conf  <- ifelse(is.na(x$conf), 'not available', paste0(100 * x$conf, '%'))
   
   cat(' Object of class "field3logit"\n')
   cat('-------------------------------\n')
   cat('Label                    :', x$label, '\n')
   cat('Possible outcomes        :', paste(x$lab, collapse = '; '), '\n')
+  cat('Type of model            :', type, '\n')
   cat('Effect                   :', x$delta, '\n')
   
   if (!is.numeric(x$delta)) {
@@ -200,6 +247,7 @@ print.field3logit <- function(x, ...) {
   cat('Number of curves         :', length(x$effects), '\n')
   cat('Number of arrows         :', na, '\n')
   cat('Covariance matrix        :', vcovB, '\n')
+  cat('Confidence regions       :', conf, '\n')
 
   invisible(x)
 }
@@ -225,51 +273,51 @@ plot.field3logit <- function(x, ..., add = FALSE, length = 0.05) {
 
 #' @rdname field3logit
 #' @export
-as.data.frame.field3logit <- function(x, ..., wide = TRUE) {
-
+as_tibble.field3logit <- function(x, ..., wide = TRUE) {
   depoLab <- list(label = x$label, lab = x$lab)
   
   x %<>%
     use_series('effects') %>%
-    simplify_field3logit
-
-  if (is.numeric(x)) {
-  	pos <- seq(from = 1, to = length(x), by = 3)
-  	x %<>%
-  	  matrix(ncol = 3, byrow = TRUE) %>%
-  	  as.data.frame %>%
-  	  cbind(depoLab$label, names(x)[pos], 'X', 'void', .) %>%
-      set_colnames(c('label', 'curve', 'arrow', 'role', depoLab$lab)) %>%
-      set_rownames(NULL)
-    x %<>% extract(rep(1:nrow(x), each = 2), )
-    x$role <- rep(c('from', 'to'), nrow(x) / 2)
-  } else {
-    x %>%
-      names %>%
-      strsplit('A') %>%
-      Reduce(rbind, ., NULL) %>%
-      as.data.frame %>%
-      { .[rep(1 : nrow(.), each = 2), ] } %>%
-      cbind(depoLab$label, .) %>%
-      set_colnames(c('label', 'curve', 'arrow')) %>%
-      set_rownames(NULL) -> depo
-  
-    levels(depo$arrow) %<>% paste0('A', .)
-
-    x %<>%
-      Reduce(function(x, y) { rbind(x, y$from, y$to) }, . , NULL) %>%
-      data.frame %>%
-      set_colnames(depoLab$lab) %>%
-      cbind(depo, role = rep(c('from', 'to'), nrow(depo) / 2), .)
-  }
+    simplify_field3logit %>%
+    purrr::imap(~ prepare_block(
+      label = depoLab$label,
+      idarrow = .y,
+      comp = depoLab$lab,
+      from = .x$from,
+      to = .x$to,
+      confregion = .x$confregion
+    )) %>%
+    purrr::reduce(bind_rows) %>%
+    mutate(comp = factor(.$comp, depoLab$lab))
   
   if (wide) {
-    merge(x[x$role == 'from', -4], x[x$role == 'to', -4],
-  	  by = c('label', 'curve', 'arrow'), suffixes = c('', '_end')
-  	) -> x
+    x %<>%
+      dplyr::arrange(.$role) %>%
+      mutate(comp = paste0(.$comp, ifelse(.$role == 'from', '', '_end'))) %>%
+      select(-'role') %>%
+      pivot_wider(
+        names_from = 'comp',
+        values_from = 'value',
+        values_fill = list(NA),
+        values_fn = list(value = list)
+      ) %>%
+      tidyr::unnest(setdiff(colnames(.), c('label', 'idarrow', 'obj')))
   }
   
-  return(x)
+  x %>%
+    mutate(group = forcats::fct_anon(factor(paste0(.$label, .$idarrow)), 'H')) %>%
+    dplyr::mutate_if(is.character, factor) %>%
+    return
+}
+
+
+
+#' @rdname field3logit
+#' @export
+as.data.frame.field3logit <- function(x, ..., wide = TRUE) {
+  as_tibble(x, ..., wide = wide) %>%
+    as.data.frame %>%
+    return
 }
 
 
@@ -277,7 +325,24 @@ as.data.frame.field3logit <- function(x, ..., wide = TRUE) {
 #' @rdname field3logit
 #' @export
 fortify.field3logit <- function(model, data, ...) {
-  return(as.data.frame.field3logit(model, ...))
+  as_tibble.field3logit(model, ...) %>%
+    return
+}
+
+
+
+#' @rdname field3logit
+#' @export
+coef.field3logit <- function(object, ...) {
+  return(object$B)
+}
+
+
+
+#' @rdname field3logit
+#' @export
+vcov.field3logit <- function(object, ...) {
+  return(object$vcovB)
 }
 
 

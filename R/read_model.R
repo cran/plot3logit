@@ -1,34 +1,36 @@
 
 #' Builds up matrix of coefficients from fitted models
 #'
-#' `read_model` reads arguments `model`, `ordinal`, `type` and `alpha` passed
-#' by function [`field3logit`] and properly sets the matrix of coefficients
+#' [read_model()] reads arguments `model`, `ordinal`, `type` and `alpha` passed
+#' by function [field3logit()] and properly sets the matrix of coefficients
 #' and the other needed model-specific functions.
 #'
-#' @param model see [`field3logit`].
+#' @inheritParams field3logit
+#' @param model see [field3logit()].
 #' @param type class of the model. Currently, forced to `"logit"`
-#'   by [`field3logit`] when [`read_model`] is called.
-#' @param alpha see [`field3logit`].
+#'   by [field3logit()] when [read_model()] is called.
+#' @param alpha see [field3logit()].
 #'
 #' @return
 #' `read_model` returns a named `list` with the following components:
 #'
 #' \item{B}{matrix of coefficients.}
 #' \item{vcovB}{variance-covariance matrix of coefficients.}
-#' \item{alpha}{see [`field3logit`].}
+#' \item{alpha}{see [field3logit()].}
 #' \item{model}{argument `type`.}
 #' \item{ordinal}{`logical` variable indicating wheter the model is
 #'   ordinal or not.}
 #' \item{P2XB}{link function.}
 #' \item{XB2P}{inverse of the link function.}
 #' \item{DeltaB2pc}{function that computes the points the curve of
-#'   the field should pass through (see [`DeltaB2pc`]).}
+#'   the field should pass through (see [DeltaB2pc()]).}
 #'
-#' @seealso [`plot3logit-package`], [`field3logit`].
+#' @seealso [`plot3logit-package`], [field3logit()].
 #'
 #' @keywords internal
-read_model <- function(model, type, alpha) {
-  out <- list(B = NULL, vcovB = NULL, alpha = alpha, model = type,
+read_model <- function(model, type, alpha = NULL, vcov = NULL) {
+  # Initialise the output object
+  out <- list(B = NULL, vcovB = vcov, alpha = alpha, model = type,
     ordinal = !is.null(alpha), readfrom = NULL,
     P2XB = NULL, XB2P = NULL, DeltaB2pc = NULL)
   
@@ -40,7 +42,7 @@ read_model <- function(model, type, alpha) {
   } else if (inherits(model, 'mlogit')) {
   	out %<>% modifyList(read_from_mlogit(model))
   } else {
-  	out %<>% modifyList(read_from_matrix(model))
+  	out %<>% modifyList(read_from_matrix(model, alpha, vcov))
   }
   
   # Add link functions
@@ -100,7 +102,7 @@ read_from_multinom <- function(model, ...) {
 read_from_polr <- function(model, ...) {
   list(
   	B = as.matrix(stats::coef(model)),
-  	# vcovB = NULL,
+  	vcovB = NULL,
   	alpha = cumsum(model$zeta),
   	model = ifelse(model$method == 'logistic', 'logit', model$method),
   	ordinal = TRUE,
@@ -114,24 +116,44 @@ read_from_polr <- function(model, ...) {
 #' @rdname read_model
 #' @keywords internal
 read_from_mlogit <- function(model, ...) {
-  depoB <- stats::coef(model)
-  depoB %<>%
-    names %>%
-    strsplit(':') %>%
-    Reduce(rbind, .) %>%
-    as.data.frame %>%
-    set_colnames(c('lev', 'variable')) %>%
-    cbind(depoB) %>%
-    reshape2::dcast(variable ~ lev, value.var = 'depoB', fill = NA)
-  depoB %<>%
-    { as.matrix(.[ , -1]) } %>%
-    set_rownames(depoB$variable)
+  # Check the version of "mlogit"
+  if(utils::packageVersion('mlogit') <= '1.0.3.1') {
+  	message('A new version of "mlogit" is available')
+  	depoN <- c('lev', 'variable')
+  	
+  	depo <- length(stats::coef(model))
+  	indxP <- c(
+  	  seq(from = 1, to = depo, by = 2),
+  	  seq(from = 2, to = depo, by = 2)
+  	)
+  } else {
+  	depoN <- c('variable', 'lev')
+  	indxP <- seq_along(stats::coef(model))
+  }
   
-  #depoP <- matrix()
+  # Read the matrix of coefficients
+  model %>%
+    stats::coef() %>%
+    as.matrix %>%
+    set_colnames('coef') %>%
+    as_tibble(rownames = 'name') %>%
+    tidyr::separate('name', depoN, ':') %>%
+    pivot_wider(
+      id_cols = 'variable',
+      names_from = 'lev',
+      values_from = 'coef'
+    ) %>%
+    tbl2matrix('variable') -> depoB
   
+  # Read the covariance matrix of coefficients
+  model %>%
+    stats::vcov() %>%
+    extract(indxP, indxP) -> depoV
+   
+  # Prepare the output
   list(
     B = depoB,
-  	# vcovB = NULL, #depoP %*% stats::vcov(model) %*% depoP,
+  	vcovB = depoV,
     alpha = NULL,
     model = 'logit',
     ordinal = FALSE,
@@ -144,16 +166,16 @@ read_from_mlogit <- function(model, ...) {
 
 #' @rdname read_model
 #' @keywords internal
-read_from_matrix <- function(model, ...) {
+read_from_matrix <- function(model, alpha, vcov, ...) {
   depo <- as.matrix(model)
   if ((nrow(depo) == 2) & (ncol(depo) == 1)) { depo %<>% t }
   
   list(
     B = depo,
-    # vcovB
-    # alpha
-    # model
-    # ordinal
+    vcovB = vcov,
+    alpha = alpha,
+    model = 'logit',
+    ordinal = !is.null(alpha),
   	readfrom = 'matrix',
   	lab = attr(model, 'labs')
   )
