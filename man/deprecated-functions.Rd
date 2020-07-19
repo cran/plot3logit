@@ -13,10 +13,9 @@ They may be removed in a future version of the package.
 \itemize{
 \item \code{\link[=plot3logit]{plot3logit()}} (since version 2.0.0). Instead of \code{\link[=plot3logit]{plot3logit()}}, generate a
 \code{field3logit} object through \code{\link[=field3logit]{field3logit()}} and then plot it through the
-method \code{\link[=plot]{plot()}} (standard graphics based on package
-\code{\link[Ternary:Ternary-package]{Ternary}}), through \code{\link[=autoplot]{autoplot()}}, or through
-\code{\link[=gg3logit]{gg3logit()}} plus some \verb{stat_*3logit} stats (graphics based on package
-\code{\link[ggtern:ggtern-package]{ggtern}}).
+method \code{\link[=plot]{plot()}} (standard graphics based on package \code{Ternary}, through
+\code{\link[=autoplot]{autoplot()}}, or through \code{\link[=gg3logit]{gg3logit()}} plus some \verb{stat_*3logit} stats
+(graphics based on package \code{\link[ggtern:ggtern_package]{ggtern}}).
 }
 }
 

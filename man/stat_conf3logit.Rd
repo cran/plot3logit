@@ -16,7 +16,7 @@ stat_conf3logit(
 }
 \arguments{
 \item{mapping}{list of aesthetic mappings to be used for plot. Mandatory
-aestetics should not be specified if \code{field3loglit} or \code{multifield3logit}
+aesthetics should not be specified if \code{field3loglit} or \code{multifield3logit}
 object is passed to \code{data}. See secion"Aesthetic mappings" of
 \code{\link[=gg3logit]{gg3logit()}} for details.}
 
@@ -60,7 +60,7 @@ gg3logit(field0) + stat_field3logit() + stat_conf3logit()
 }
 \seealso{
 Other gg functions: 
-\code{\link{autoplot}()},
+\code{\link{autoplot.field3logit}()},
 \code{\link{gg3logit}()},
 \code{\link{stat_3logit}()},
 \code{\link{stat_field3logit}()}

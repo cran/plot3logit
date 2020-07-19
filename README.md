@@ -30,7 +30,12 @@ available through the package `Ternary` (Smith 2017) by functions
 `field3logit` objects.
 
 See the help of `field3logit` for representing composite effects and
-`multifield3logit` for drawing multiple fields.
+`multifield3logit` for drawing multiple fields and the presentation
+vignette `plot3logit-overview` by typing:
+
+``` r
+vignette('plot3logit-overview', package = 'plot3logit')
+```
 
 ## Compatibility
 
@@ -39,7 +44,8 @@ regression estimates from the output of the following functions:
 
   - `multinom` of package `nnet` (logit regression);
   - `polr` of package `MASS` (ordinal logit regression);
-  - `mlogit` of package `mlogit` (logit regression).
+  - `mlogit` of package `mlogit` (logit regression);
+  - `vgam` of package `VGAM` (logit regression).
 
 Moreover, explicit matrix of regression coefficients can be passed to
 `field3logit`. See the help of the package (type `?
@@ -106,8 +112,8 @@ doi:[10.1080/00031305.2018.1442368](https://doi.org/10.1080/00031305.2018.144236
 
 <div id="ref-smith2017">
 
-Smith, Martin R. 2017. “Ternary: An R Package for Creating Ternary
-Plots.” *Zenodo*.
+Smith, M. R. 2017. “Ternary: An R Package for Creating Ternary Plots.”
+*Zenodo*.
 
 </div>
 

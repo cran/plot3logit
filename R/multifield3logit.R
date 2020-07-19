@@ -11,6 +11,9 @@
 #' @param maxitems maximum number of items to be enumerated when an object of
 #'   class `multifield3logit` is printed.
 #' @param col,legend graphical parameters if `Ternary` package is used.
+#' @param i index of the `field3logit` object to be selected.
+#' @param drop if `TRUE`, a `field3logit` object is returned if the
+#'   subsetted `multifield3logit` object has length one.
 #'
 #' @return
 #' `S3` object of class `multifield3logit` structured as a named `list`.
@@ -63,7 +66,6 @@ multifield3logit <- function(x, ...) {
   } else if (depo[2] == 0) {
   	x %<>%
   	  list %>%
-  	  set_names(x$label) %>%
   	  structure(class = c('multifield3logit', 'field3logit'))
   }
   return(x)
@@ -90,13 +92,13 @@ print.multifield3logit <- function(x, maxitems = 10, ...) {
   cat('Labels\n')
   
   x %>%
+    labels %>%
     extract(1:min(maxitems, length(x))) %>%
-    names %>%
     nchar %>%
     max -> depoL
   for (j in 1:min(length(x), maxitems)) {
-  	cat('  ', j, '. ', names(x)[j],
-  	  paste0(rep(' ', depoL - nchar(names(x)[j])), collapse = ''),
+  	cat('  ', j, '. ', labels(x)[j],
+  	  paste0(rep(' ', depoL - nchar(labels(x)[j])), collapse = ''),
   	  '  (dX: ', paste(x[[j]]$delta, collapse = ', '), ')\n', sep = '')
   }
   if (length(x) > maxitems) {
@@ -107,16 +109,6 @@ print.multifield3logit <- function(x, maxitems = 10, ...) {
   invisible(x)
 }
 
-
-
-#' @rdname multifield3logit
-#' @export
-fortify.multifield3logit <- function(model, data, ...) {
-  lapply(model, fortify) %>%
-    Reduce(rbind, .) %>%
-    mutate(group = forcats::fct_anon(factor(paste0(.$label, .$idarrow)), 'H')) %>%
-    return
-}
 
 
 #' @rdname multifield3logit
@@ -136,7 +128,7 @@ plot.multifield3logit <- function(x, y = NULL, add = FALSE, col = NA,
   
   if (legend) {
   	legend(
-  	  x = 'topright', legend = names(x),
+  	  x = 'topright', legend = labels(x),
   	  col = col, lwd = 2
   	)
   }
@@ -145,5 +137,91 @@ plot.multifield3logit <- function(x, y = NULL, add = FALSE, col = NA,
 }
 
 
+
+#' @rdname multifield3logit
+#' @export
+as_tibble.multifield3logit <- function(x, ..., wide = TRUE) {
+  lapply(x, as_tibble.field3logit, wide = wide) %>%
+    purrr::reduce(bind_rows) %>%
+    mutate(group = forcats::fct_anon(factor(paste0(.$label, .$idarrow)), 'H')) %>%
+    return
+}
+
+
+
+#' @rdname multifield3logit
+#' @export
+as.data.frame.multifield3logit <- function(x, ..., wide = TRUE) {
+  as_tibble.multifield3logit(x, ..., wide = wide) %>%
+    as.data.frame %>%
+    return
+}
+
+
+
+#' @rdname multifield3logit
+#' @export
+fortify.multifield3logit <- function(model, data, ..., wide = TRUE) {
+  as_tibble.multifield3logit(model, ..., wide = wide) %>%
+    return
+}
+
+
+
+#' @rdname multifield3logit
+#' @export
+tidy.multifield3logit <- function(x, ..., wide = TRUE) {
+  as_tibble.multifield3logit(x, ..., wide = wide) %>%
+    return
+}
+
+
+
+#' @rdname multifield3logit
+#' @export
+labels.multifield3logit <- function(object, ...) {
+  object %>% lapply(labels) %>% unlist %>% return
+}
+
+
+
+#' @rdname multifield3logit
+#' @export
+`labels<-.multifield3logit` <- function(x, value) {
+  if(length(x) != length(value)) { stop('length mismatch') }
+  
+  for (i in length(x)) { labels(x[i]) <- value[i] }
+
+  return(x)
+}
+
+
+
+#' @rdname multifield3logit
+#' @export
+`[.multifield3logit` <- function(x, i, drop = TRUE) {
+  out <- NextMethod()
+  if (drop & (length(out) == 1)) {
+  	out <- out[[1]]
+  } else {
+  	class(out) <- class(x)
+  }
+  return(out)
+}
+
+
+#' @rdname multifield3logit
+#' @export
+`[<-.multifield3logit` <- function(x, i, value) {
+  if (!inherits(value, 'field3logit')) {
+  	stop('Only objects of class "field3logit" are allowed')
+  }
+  if (inherits(value, 'multifield3logit')) {
+  	stop('Objects of class "multifield3logit" are not allowed')
+  }
+  
+  x[[i]] <- value
+  return(x)
+}
 
 

@@ -10,12 +10,12 @@ gg3logit(data = NULL, mapping = aes(), ...)
 \item{data}{a \code{field3logit} object, a \code{multifield3logit} object, or
 a \code{data.frame} structured like a fortified \code{field3logit} or a
 \code{multifield3logit} object. If a \code{field3logit} or a \code{multifield3logit}
-is passed, none of the aestetics mappings listed in Section
+is passed, none of the aesthetics mappings listed in Section
 "Aesthetic mappings" below has to be specified.}
 
 \item{mapping}{list of aesthetic mappings to use for plot. If a
 \code{field3logit} or a \code{multifield3logit} is passed to \code{data}, none of the
-aestetics mappings listed in section \emph{Aesthetic mappings} below has to be
+aesthetics mappings listed in section \emph{Aesthetic mappings} below has to be
 specified (if specified, they will be overwritten).}
 
 \item{...}{additional arguments passed through to \code{\link[ggtern:ggtern]{ggtern}}.}
@@ -24,12 +24,12 @@ specified (if specified, they will be overwritten).}
 \code{gg3logit} initialises a \code{\link[ggplot2:ggplot]{ggplot}} object through
 \code{\link[ggtern:ggtern]{ggtern}}. If a fortified \code{field3logit} or a
 \code{multifield3logit} object is passed to argument \code{data}, the mandatory
-aestetics of the ternary plot are automatically set.
+aesthetics of the ternary plot are automatically set.
 }
 \section{Aesthetic mappings}{
 
 
-The following aestetics are required by at least one of the available stats.
+The following aesthetics are required by at least one of the available stats.
 None of them should be specified if a \code{field3logit} or a \code{multifield3logit}
 is passed to the argument \code{data} of \code{\link[=gg3logit]{gg3logit()}}, \code{\link[=stat_field3logit]{stat_field3logit()}} or
 \code{\link[=stat_conf3logit]{stat_conf3logit()}}:
@@ -43,35 +43,37 @@ confidence regions;
 }
 \item \code{xend}, \code{yend}, \code{zend}: required by \code{\link[=stat_field3logit]{stat_field3logit()}} as ternary
 coordinates of the ending points of the arrows;
-\item \code{group}: identifier of groups of graphical objets (arrows and their confidence
+\item \code{group}: identifier of groups of graphical objects (arrows and their confidence
 regions);
 \item \code{type}: type of graphical object (arrows or confidence regions).
 }
 
 The following variables of a fortified \code{field3logit} or a \code{multifield3logit}
-object may be useful for defining other standard aestetics (such as \code{fill},
+object may be useful for defining other standard aesthetics (such as \code{fill},
 \code{colour}, ...):
 \itemize{
 \item \code{label} identifies a field through a label, thus it is useful for
 distinguishing the fields in a \code{multifield3logit} object.
-\item \code{idarrow} identifies each group of graphical objets (arrows and their
+\item \code{idarrow} identifies each group of graphical objects (arrows and their
 confidence regions) \emph{within} every field. Unlike variable \code{group},
-\code{idarrow} is not a global identifier of graphical objets.
+\code{idarrow} is not a global identifier of graphical objects.
 }
 }
 
 \examples{
+\dontrun{
 data(cross_1year)
 
 mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
 field0 <- field3logit(mod0, 'genderFemale')
 
 gg3logit(field0) + stat_field3logit()
+}
 
 }
 \seealso{
 Other gg functions: 
-\code{\link{autoplot}()},
+\code{\link{autoplot.field3logit}()},
 \code{\link{stat_3logit}()},
 \code{\link{stat_conf3logit}()},
 \code{\link{stat_field3logit}()}

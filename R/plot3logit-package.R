@@ -21,16 +21,15 @@
 #' [gg3logit()] and [stat_field3logit()].
 #'
 #' The `plot3logit` package inherits graphical classes and methods from the
-#' package [`ggtern`][ggtern::ggtern-package]
+#' package [`ggtern`][ggtern::ggtern_package]
 #' \insertCite{hamilton2018}{plot3logit} which, in turn, is based on the
 #' [`ggplot2`][ggplot2::ggplot2-package] package
 #' \insertCite{wickham2016}{plot3logit}.
 #'
 #' Graphical representation based on **standard graphics** is made available
-#' through the package [`Ternary`][Ternary::TernaryPlot]
-#' \insertCite{smith2017}{plot3logit} by function [TernaryField()]
-#' and in particular by the method [`plot`][plot.field3logit] of
-#' `field3logit` class.
+#' through the package `Ternary` \insertCite{smith2017}{plot3logit} by function
+#' [TernaryField()] and in particular by the method [`plot`][plot.field3logit]
+#' of `field3logit` class.
 #'
 #' Since version 2.0.0, `plot3logit` permits one to draw also the confidence
 #' regions associated to the covariates effects. See the vignette of the
@@ -42,7 +41,8 @@
 #' output of the following functions:
 #' * [`multinom`][nnet::multinom] of package `nnet` (logit regression);
 #' * [`polr`][MASS::polr] of package `MASS` (ordinal logit regression);
-#' * [`mlogit`][mlogit::mlogit] of package `mlogit` (logit regression).
+#' * [`mlogit`][mlogit::mlogit] of package `mlogit` (logit regression);
+#' * [`vgam`][VGAM::vgam] of package `VGAM` (logit regression).
 #'
 #' Moreover, explicit matrix of regression coefficients can be passed to
 #' [field3logit()]. See examples and function [field3logit()] for further
@@ -96,7 +96,8 @@
 #' @import magrittr Ternary ggtern
 #'
 #' @importFrom dplyr bind_rows mutate pull select
-#' @importFrom ggplot2 fortify unit arrow
+#' @importFrom generics tidy
+#' @importFrom ggplot2 arrow autoplot fortify unit
 #' @importFrom graphics points arrows plot
 #' @importFrom Rdpack reprompt
 #' @importFrom stats uniroot
@@ -107,4 +108,12 @@
 NULL
 
 utils::globalVariables('.')
+
+
+#' @export
+generics::tidy
+
+#' @export
+ggplot2::autoplot
+
 

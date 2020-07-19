@@ -58,7 +58,7 @@ gg3logit(field0) + stat_3logit(conf = TRUE)
 }
 \seealso{
 Other gg functions: 
-\code{\link{autoplot}()},
+\code{\link{autoplot.field3logit}()},
 \code{\link{gg3logit}()},
 \code{\link{stat_conf3logit}()},
 \code{\link{stat_field3logit}()}

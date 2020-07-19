@@ -30,7 +30,7 @@ are computed (if not already available) and drawn.}
 confidence region}.}
 
 \item{conf.args}{graphical parameters of confidence regions to be passed
-to \code{\link[=TernaryPolygon]{TernaryPolygon()}}.}
+to \code{\link[Ternary:AddToTernary]{Ternary::TernaryPolygon()}}.}
 }
 \value{
 An object of class \code{field3logit} with confidence regions included, if

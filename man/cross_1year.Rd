@@ -26,8 +26,8 @@ a factor with three levels: \emph{Low}, \emph{Average}, \emph{High}.}
 \description{
 \code{data.frame} with 3282 cross-sectional observations of 7 variables about
 employment condition of master's students one year after graduation. Data
-refer to students graduated at the University of Trento (Italy) between 2009
-and 2013.
+are used in \insertCite{santi2019;textual}{plot3logit} and refer to students
+graduated at the University of Trento (Italy) between 2009 and 2013.
 }
 \references{
 \insertAllCited{}

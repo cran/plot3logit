@@ -24,22 +24,22 @@ Conf3Logit <- ggplot2::ggproto('StatConfidenceTern', Stat,
 #' `gg3logit` initialises a [`ggplot`][ggplot2::ggplot] object through
 #' [`ggtern`][ggtern::ggtern]. If a fortified `field3logit` or a
 #' `multifield3logit` object is passed to argument `data`, the mandatory
-#' aestetics of the ternary plot are automatically set.
+#' aesthetics of the ternary plot are automatically set.
 #'
 #' @param data a `field3logit` object, a `multifield3logit` object, or
 #'   a `data.frame` structured like a fortified `field3logit` or a
 #'   `multifield3logit` object. If a `field3logit` or a `multifield3logit`
-#'   is passed, none of the aestetics mappings listed in Section
+#'   is passed, none of the aesthetics mappings listed in Section
 #'   "Aesthetic mappings" below has to be specified.
 #' @param mapping list of aesthetic mappings to use for plot. If a
 #'   `field3logit` or a `multifield3logit` is passed to `data`, none of the
-#'   aestetics mappings listed in section *Aesthetic mappings* below has to be
+#'   aesthetics mappings listed in section *Aesthetic mappings* below has to be
 #'   specified (if specified, they will be overwritten). 
 #' @param ... additional arguments passed through to [`ggtern`][ggtern::ggtern].
 #'
 #' @section Aesthetic mappings:
 #'
-#' The following aestetics are required by at least one of the available stats.
+#' The following aesthetics are required by at least one of the available stats.
 #' None of them should be specified if a `field3logit` or a `multifield3logit`
 #' is passed to the argument `data` of [gg3logit()], [stat_field3logit()] or
 #' [stat_conf3logit()]:
@@ -50,28 +50,30 @@ Conf3Logit <- ggplot2::ggproto('StatConfidenceTern', Stat,
 #'     confidence regions;
 #' * `xend`, `yend`, `zend`: required by [stat_field3logit()] as ternary
 #'   coordinates of the ending points of the arrows;
-#' * `group`: identifier of groups of graphical objets (arrows and their confidence
+#' * `group`: identifier of groups of graphical objects (arrows and their confidence
 #'   regions);
 #' * `type`: type of graphical object (arrows or confidence regions).
 #'
 #' The following variables of a fortified `field3logit` or a `multifield3logit`
-#' object may be useful for defining other standard aestetics (such as `fill`,
+#' object may be useful for defining other standard aesthetics (such as `fill`,
 #' `colour`, ...):
 #' * `label` identifies a field through a label, thus it is useful for
 #'   distinguishing the fields in a `multifield3logit` object.
-#' * `idarrow` identifies each group of graphical objets (arrows and their
+#' * `idarrow` identifies each group of graphical objects (arrows and their
 #'   confidence regions) *within* every field. Unlike variable `group`,
-#'  `idarrow` is not a global identifier of graphical objets.
+#'  `idarrow` is not a global identifier of graphical objects.
 #' 
 #' @family gg functions
 #'
 #' @examples
+#' \dontrun{
 #' data(cross_1year)
 #'
 #' mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
 #' field0 <- field3logit(mod0, 'genderFemale')
 #'
 #' gg3logit(field0) + stat_field3logit()
+#' }
 #'
 #' @export
 gg3logit <- function (data = NULL, mapping = aes(), ...) {
@@ -112,7 +114,7 @@ gg3logit <- function (data = NULL, mapping = aes(), ...) {
 #' @inheritParams gg3logit
 #' @param data a `field3logit` or a `multifield3logit` object.
 #' @param mapping list of aesthetic mappings to be used for plot. Mandatory
-#'   aestetics should not be specified if `field3loglit` or `multifield3logit`
+#'   aesthetics should not be specified if `field3loglit` or `multifield3logit`
 #'   object is passed to `data`. See secion"Aesthetic mappings" of
 #'   [gg3logit()] for details.
 #' @param arrow. specification for arrow heads, as created by
@@ -162,13 +164,10 @@ stat_field3logit <- function(mapping = aes(), data = NULL, geom = 'segment',
   	))
   }
 
-  if (all(is.na(data[ , mapping$xend]))) {
-  	geom <- 'point'
-  	params['arrow'] <- NULL
-  }
+  geom <- quote(ifelse(any(is.na(data[ , mapping$xend])), 'point', 'segment'))
   
   ggplot2::layer(
-    stat = Stat3Logit, data = data, mapping = mapping, geom = geom,
+    stat = Stat3Logit, data = data, mapping = mapping, geom = eval(geom),
     position = position, show.legend = show.legend,
     inherit.aes = inherit.aes, params = params
   )
@@ -303,9 +302,11 @@ stat_3logit <- function(mapping_field = aes(), mapping_conf = aes(),
 #'
 #' @inheritParams stat_3logit
 #' @inheritParams add_confregions
+#' @inheritParams ggplot2::autoplot
 #' @param conf if `TRUE` and if confidence regions are available, the layer of
 #'   [stat_conf3logit()] is added, otherwise only a [gg3logit()] object with the
 #'   layer of [stat_field3logit()] is returned.
+#' @param object an object of class `field3logit` or `multifield3logit`.
 #'
 #' @family gg functions
 #'
@@ -320,15 +321,15 @@ stat_3logit <- function(mapping_field = aes(), mapping_conf = aes(),
 #' }
 #'
 #' @export
-autoplot <- function(x, mapping_field = aes(), mapping_conf = aes(),
-  data = NULL, params_field = list(), params_conf = list(),
-  show.legend = NA, conf = TRUE) {
+autoplot.field3logit <- function(object, ..., mapping_field = aes(),
+  mapping_conf = aes(), data = NULL, params_field = list(),
+  params_conf = list(), show.legend = NA, conf = TRUE) {
   
-  if (!inherits(x, 'field3logit')) {
+  if (!inherits(object, 'field3logit')) {
   	stop('Only objects of class "field3logit" and "multifield3logit" are allowed')
   }
   
-  gg3logit(x) +
+  gg3logit(object) +
     stat_3logit(
       mapping_field = mapping_field, mapping_conf = mapping_conf,
       params_field = params_field, params_conf = params_conf,

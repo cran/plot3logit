@@ -7,8 +7,11 @@
 \alias{as_tibble.field3logit}
 \alias{as.data.frame.field3logit}
 \alias{fortify.field3logit}
+\alias{tidy.field3logit}
 \alias{coef.field3logit}
 \alias{vcov.field3logit}
+\alias{labels.field3logit}
+\alias{labels<-.field3logit}
 \title{Computation of the vector field}
 \usage{
 field3logit(
@@ -18,7 +21,7 @@ field3logit(
   p0 = NULL,
   alpha = NULL,
   vcov = NULL,
-  ncurves = 8,
+  nstreams = 8,
   narrows = Inf,
   edge = 0.01,
   conf = NA,
@@ -33,11 +36,17 @@ field3logit(
 
 \method{as.data.frame}{field3logit}(x, ..., wide = TRUE)
 
-\method{fortify}{field3logit}(model, data, ...)
+\method{fortify}{field3logit}(model, data, ..., wide = TRUE)
+
+\method{tidy}{field3logit}(x, ..., wide = TRUE)
 
 \method{coef}{field3logit}(object, ...)
 
 \method{vcov}{field3logit}(object, ...)
+
+\method{labels}{field3logit}(object, ...)
+
+\method{labels}{field3logit}(x) <- value
 }
 \arguments{
 \item{model}{either a fitted trinomial model or a matrix of regressor
@@ -48,14 +57,16 @@ coefficients. See section \emph{Compatibility} and examples of
 This could be either a \code{numeric} vector, the name of a covariate
 (passed either as a \code{character} or an \code{expression}), or a mathematical
 expression involving one or more than one covariates (passed either as
-a \code{character} or an \code{expression}). See details and examples.}
+a \code{character} or an \code{expression}). If a list is passed to \code{delta},
+multiple fields are computed according to parameters passed as
+components of a 2-level list. See details and examples.}
 
 \item{label}{label to be used for identifying the field when multiple
 fields are plotted. See \code{\link[=multifield3logit]{multifield3logit()}}.}
 
 \item{p0}{\code{list} of starting points (ternary coordinates) of the curves
 of the field. If not specified, \code{field3logit} automatically compute
-\code{ncurves} candidate points so that arrows are evenly distributed over
+\code{nstreams} candidate points so that arrows are evenly distributed over
 the ternary plot area. See Examples.}
 
 \item{alpha}{\code{numeric} vector of length two where constants \eqn{\alpha^{(1)}}
@@ -68,7 +79,7 @@ of the variance-covariance matrix should be ordered according to the matrix
 of parameter estimates where the categories of the dependent variable are
 the slow index, whereas the covariates are the fast index.}
 
-\item{ncurves}{number of curves of the field to be computed. In case
+\item{nstreams}{number of stream lines of the field to be computed. In case
 of ordinal models, this parameter is ineffective, as only one curve
 can be drawn. The parameter is ineffective also in case that argument
 \code{p0} is set.}
@@ -94,14 +105,18 @@ ternary plot should be drawn (\code{add = FALSE}).}
 
 \item{length}{length of the edges of the arrow head (in inches).}
 
-\item{wide}{it allows to choose whether \code{as.data.frme} should return a
-\code{data.frame} object in wide (default) or long form.}
+\item{wide}{it allows to choose whether \code{as.data.frame}, \code{as_tibble},
+\code{fortify} and \code{tidy} should return a \code{data.frame} or a \code{tibble} in wide
+(default) or long form.}
 
 \item{data}{not used. Argument included only for interface compatibility with
 the generic \code{fortify}.}
+
+\item{value}{value to be assigned.}
 }
 \value{
-\code{S3} object of class \code{field3logit} structured as a named \code{list}.
+\code{S3} object of class \code{field3logit} structured as a named \code{list} or an object
+of class \code{multifield3logit} if \code{delta} is a \code{list}.
 }
 \description{
 \code{\link[=field3logit]{field3logit()}} computes the vector field associated to a change in
@@ -111,8 +126,12 @@ explicitly specified.
 
 The method \code{\link[=plot]{plot()}} draws the ternary plot using standard graphics methods
 provided by package \code{Ternary}. See function \code{\link[=gg3logit]{gg3logit()}} for plotting
-through the package \code{\link[ggtern:ggtern-package]{ggtern}} based on the grammar
-of graphics.
+through the package \code{\link[ggtern:ggtern_package]{ggtern}} based on the
+grammar of graphics.
+
+Methods \code{\link[=as.data.frame]{as.data.frame()}}, \code{\link[=as_tibble]{as_tibble()}}, \code{\link[=fortify]{fortify()}} and \code{\link[=tidy]{tidy()}} permits
+the graphical information of a \code{field3logit} object to be exported in a
+standardised format (either a \code{data.frame} or a \code{tibble}).
 }
 \details{
 Argument \code{delta} could be passed in one of the following formats:
@@ -130,12 +149,24 @@ specification of vector \eqn{\Delta x\in\bm{R}^k}.
 }
 
 See examples for comparing all three methods.
+
+\strong{It is also possible to pass a \code{list} to argument \code{delta}.} In such a case,
+the function \code{field3logit} is run once for every component of \code{delta},
+and the set of generated \code{field3logit} objects is combined into a single
+object of class \code{multifield3logit}. The compoments of the list passed to
+\code{delta} must be named lists whose elements are used as arguments of each call
+of function \code{field3logit}, whereas the arguments specified in the parent call
+of \code{field3logit} are used as default values. It follows that arguments shared
+by all fields can be specified once in the parent call of \code{field3logit}, and
+only arguments which changes from field to field (such as \code{delta} and
+\code{label}) should be set in the lists making up the list passed to \code{delta}. See
+the last example in section Examples and the help of \code{\link[=multifield3logit]{multifield3logit()}}.
 }
 \examples{
-\dontrun{
 data(cross_1year)
 
-# Model fit
+\dontrun{
+# Fitting the model
 mod0 <- nnet::multinom(employment_sit ~ finalgrade + irregularity + hsscore,
   cross_1year)
 mod0
@@ -153,6 +184,20 @@ gg3logit(field0) + stat_field3logit()
 field0 <- field3logit(mod0, 'finalgradeHigh - 10 * hsscore')
 gg3logit(field0) + stat_field3logit()
 }
+
+# Fitting the model
+mod1 <- nnet::multinom(employment_sit ~ ., data = cross_1year)
+
+# List passed to argument "delta" for generating "multifield3logit" objects
+refpoint <- list(c(0.7, 0.15, 0.15))
+depo <- list(
+  list(delta = 'durationShort',  label = 'Short duration'),
+  list(delta = 'durationLong',   label = 'Long duration'),
+  list(delta = 'finalgradeHigh', label = 'High final grade'),
+  list(delta = 'finalgradeLow',  label = 'Low final grade')
+)
+mfields <- field3logit(mod1, delta = depo, p0 = refpoint, narrows = 1)
+mfields
 
 }
 \references{

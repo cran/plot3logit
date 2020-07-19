@@ -26,14 +26,16 @@ coefficients. See section \emph{Compatibility} and examples of
 This could be either a \code{numeric} vector, the name of a covariate
 (passed either as a \code{character} or an \code{expression}), or a mathematical
 expression involving one or more than one covariates (passed either as
-a \code{character} or an \code{expression}). See details and examples.}
+a \code{character} or an \code{expression}). If a list is passed to \code{delta},
+multiple fields are computed according to parameters passed as
+components of a 2-level list. See details and examples.}
 
 \item{label}{label to be used for identifying the field when multiple
 fields are plotted. See \code{\link[=multifield3logit]{multifield3logit()}}.}
 
 \item{p0}{\code{list} of starting points (ternary coordinates) of the curves
 of the field. If not specified, \code{field3logit} automatically compute
-\code{ncurves} candidate points so that arrows are evenly distributed over
+\code{nstreams} candidate points so that arrows are evenly distributed over
 the ternary plot area. See Examples.}
 
 \item{alpha}{\code{numeric} vector of length two where constants \eqn{\alpha^{(1)}}

@@ -27,16 +27,15 @@ creates a \code{field3logit} object which may be represented by means of functio
 \code{\link[=gg3logit]{gg3logit()}} and \code{\link[=stat_field3logit]{stat_field3logit()}}.
 
 The \code{plot3logit} package inherits graphical classes and methods from the
-package \code{\link[ggtern:ggtern-package]{ggtern}}
+package \code{\link[ggtern:ggtern_package]{ggtern}}
 \insertCite{hamilton2018}{plot3logit} which, in turn, is based on the
 \code{\link[ggplot2:ggplot2-package]{ggplot2}} package
 \insertCite{wickham2016}{plot3logit}.
 
 Graphical representation based on \strong{standard graphics} is made available
-through the package \code{\link[Ternary:TernaryPlot]{Ternary}}
-\insertCite{smith2017}{plot3logit} by function \code{\link[=TernaryField]{TernaryField()}}
-and in particular by the method \code{\link[=plot.field3logit]{plot}} of
-\code{field3logit} class.
+through the package \code{Ternary} \insertCite{smith2017}{plot3logit} by function
+\code{\link[=TernaryField]{TernaryField()}} and in particular by the method \code{\link[=plot.field3logit]{plot}}
+of \code{field3logit} class.
 
 Since version 2.0.0, \code{plot3logit} permits one to draw also the confidence
 regions associated to the covariates effects. See the vignette of the
@@ -50,7 +49,8 @@ output of the following functions:
 \itemize{
 \item \code{\link[nnet:multinom]{multinom}} of package \code{nnet} (logit regression);
 \item \code{\link[MASS:polr]{polr}} of package \code{MASS} (ordinal logit regression);
-\item \code{\link[mlogit:mlogit]{mlogit}} of package \code{mlogit} (logit regression).
+\item \code{\link[mlogit:mlogit]{mlogit}} of package \code{mlogit} (logit regression);
+\item \code{\link[VGAM:vgam]{vgam}} of package \code{VGAM} (logit regression).
 }
 
 Moreover, explicit matrix of regression coefficients can be passed to

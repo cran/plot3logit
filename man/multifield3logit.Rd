@@ -4,8 +4,15 @@
 \alias{multifield3logit}
 \alias{+.field3logit}
 \alias{print.multifield3logit}
-\alias{fortify.multifield3logit}
 \alias{plot.multifield3logit}
+\alias{as_tibble.multifield3logit}
+\alias{as.data.frame.multifield3logit}
+\alias{fortify.multifield3logit}
+\alias{tidy.multifield3logit}
+\alias{labels.multifield3logit}
+\alias{labels<-.multifield3logit}
+\alias{[.multifield3logit}
+\alias{[<-.multifield3logit}
 \title{Multiple trilogit fields}
 \usage{
 multifield3logit(x, ...)
@@ -14,9 +21,23 @@ multifield3logit(x, ...)
 
 \method{print}{multifield3logit}(x, maxitems = 10, ...)
 
-\method{fortify}{multifield3logit}(model, data, ...)
-
 \method{plot}{multifield3logit}(x, y = NULL, add = FALSE, col = NA, legend = TRUE, ...)
+
+\method{as_tibble}{multifield3logit}(x, ..., wide = TRUE)
+
+\method{as.data.frame}{multifield3logit}(x, ..., wide = TRUE)
+
+\method{fortify}{multifield3logit}(model, data, ..., wide = TRUE)
+
+\method{tidy}{multifield3logit}(x, ..., wide = TRUE)
+
+\method{labels}{multifield3logit}(object, ...)
+
+\method{labels}{multifield3logit}(x) <- value
+
+\method{[}{multifield3logit}(x, i, drop = TRUE)
+
+\method{[}{multifield3logit}(x, i) <- value
 }
 \arguments{
 \item{x, y, model}{object of class \code{field3logit} or \code{multifield3logit}.}
@@ -26,14 +47,27 @@ multifield3logit(x, ...)
 \item{maxitems}{maximum number of items to be enumerated when an object of
 class \code{multifield3logit} is printed.}
 
-\item{data}{not used. Argument included only for interface compatibility with
-the generic \code{fortify}.}
-
 \item{add}{\code{logical} argument which specifies whether the field
 should be added to an existing plot (\code{add = TRUE}) or a new
 ternary plot should be drawn (\code{add = FALSE}).}
 
 \item{col, legend}{graphical parameters if \code{Ternary} package is used.}
+
+\item{wide}{it allows to choose whether \code{as.data.frame}, \code{as_tibble},
+\code{fortify} and \code{tidy} should return a \code{data.frame} or a \code{tibble} in wide
+(default) or long form.}
+
+\item{data}{not used. Argument included only for interface compatibility with
+the generic \code{fortify}.}
+
+\item{object}{object of class \code{field3logit}.}
+
+\item{value}{value to be assigned.}
+
+\item{i}{index of the \code{field3logit} object to be selected.}
+
+\item{drop}{if \code{TRUE}, a \code{field3logit} object is returned if the
+subsetted \code{multifield3logit} object has length one.}
 }
 \value{
 \code{S3} object of class \code{multifield3logit} structured as a named \code{list}.

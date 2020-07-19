@@ -41,6 +41,8 @@ read_model <- function(model, type, alpha = NULL, vcov = NULL) {
   	out %<>% modifyList(read_from_polr(model))
   } else if (inherits(model, 'mlogit')) {
   	out %<>% modifyList(read_from_mlogit(model))
+  } else if (inherits(model, 'vgam')) {
+  	out %<>% modifyList(read_from_vgam(model))
   } else {
   	out %<>% modifyList(read_from_matrix(model, alpha, vcov))
   }
@@ -73,7 +75,13 @@ read_model <- function(model, type, alpha = NULL, vcov = NULL) {
   
   # Residual setting
   if (is.null(out$lab)) { out$lab <- c('p1', 'p2', 'p3') }
+  if (out$ordinal) {
+  	colnames(out$B) <- 'Coef.'
+  } else {
+  	colnames(out$B) <- out$lab[-1]
+  }
   
+  # Output
   out
 }
 
@@ -166,18 +174,65 @@ read_from_mlogit <- function(model, ...) {
 
 #' @rdname read_model
 #' @keywords internal
-read_from_matrix <- function(model, alpha, vcov, ...) {
-  depo <- as.matrix(model)
-  if ((nrow(depo) == 2) & (ncol(depo) == 1)) { depo %<>% t }
+read_from_vgam <- function(model, ...) {
+  # Check the object
+  if (!inherits(model@family, 'vglmff')) {
+  	stop('Object of class "VGAM" should be of family "vglmff"')
+  }
+  if (!identical(model@family@vfamily, c('multinomial', 'VGAMcategorical'))) {
+  	stop('Object of class "VGAM" (family "vglmff") does not refer to a multinomial categorical regression')
+  }
+  if (!identical(model@misc$link, 'multilogitlink')) {
+  	stop('The multinomial regression is not a multilogit')
+  }
   
+  # Set the parameters
+  depoL <- list(
+    ref = model@misc$ynames[model@misc$refLevel],
+    oth = model@misc$ynames[-model@misc$refLevel]
+  )
+  depo <- length(stats::coef(model))
+  indxP <- c(
+    seq(from = 1, to = depo, by = 2),
+  	seq(from = 2, to = depo, by = 2)
+  )
+  
+  # Read the matrix of coefficients
+  model %>%
+    stats::coef(matrix = TRUE) %>%
+    as.matrix %>%
+    set_colnames(depoL$oth) -> depoB
+  
+  # Read the covariance matrix of coefficients
+  model %>%
+    stats::vcov() %>%
+    extract(indxP, indxP) -> depoV
+   
+  # Prepare the output
   list(
-    B = depo,
+    B = depoB,
+  	vcovB = depoV,
+    alpha = NULL,
+    model = 'logit',
+    ordinal = FALSE,
+    readfrom = 'VGAM::vgam',
+    lab = c(depoL$ref, depoL$oth)
+  )
+}
+
+
+
+#' @rdname read_model
+#' @keywords internal
+read_from_matrix <- function(model, alpha, vcov, ...) {
+  list(
+    B = as.matrix(model),
     vcovB = vcov,
     alpha = alpha,
     model = 'logit',
     ordinal = !is.null(alpha),
   	readfrom = 'matrix',
-  	lab = attr(model, 'labs')
+  	lab = attr(model, 'levels')
   )
 }
 
