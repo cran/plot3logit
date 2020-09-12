@@ -22,23 +22,23 @@ details are illustrated and discussed in
 \insertCite{santi2019;textual}{plot3logit}.
 
 The package can read the results of \strong{both categorical and ordinal trinomial
-logit} regression fitted by various functions (see the next section) and
+logit} regression fitted by various functions (see \code{\link[=extract3logit]{extract3logit()}}) and
 creates a \code{field3logit} object which may be represented by means of functions
-\code{\link[=gg3logit]{gg3logit()}} and \code{\link[=stat_field3logit]{stat_field3logit()}}.
+\code{\link[=autoplot]{autoplot()}} and \code{\link[=plot]{plot()}}.
 
 The \code{plot3logit} package inherits graphical classes and methods from the
 package \code{\link[ggtern:ggtern_package]{ggtern}}
 \insertCite{hamilton2018}{plot3logit} which, in turn, is based on the
 \code{\link[ggplot2:ggplot2-package]{ggplot2}} package
-\insertCite{wickham2016}{plot3logit}.
+\insertCite{wickham2016a}{plot3logit}.
 
 Graphical representation based on \strong{standard graphics} is made available
 through the package \code{Ternary} \insertCite{smith2017}{plot3logit} by function
 \code{\link[=TernaryField]{TernaryField()}} and in particular by the method \code{\link[=plot.field3logit]{plot}}
 of \code{field3logit} class.
 
-Since version 2.0.0, \code{plot3logit} permits one to draw also the confidence
-regions associated to the covariates effects. See the vignette of the
+Since version 2.0.0, \code{plot3logit} can also compute and draw confidence
+regions associated to the covariate effects. See the vignette of the
 package (type \code{vignette('plot3logit-overview')}) and the help of function
 \code{\link[=stat_conf3logit]{stat_conf3logit()}} for some examples.
 }
@@ -47,28 +47,29 @@ package (type \code{vignette('plot3logit-overview')}) and the help of function
 Function \code{\link[=field3logit]{field3logit()}} can read trinomial regression estimates from the
 output of the following functions:
 \itemize{
+\item \code{\link[ordinal:clm]{clm}} and \code{\link[ordinal:clm2]{clm2}} of package \code{ordinal}
+(ordinal logit regression);
+\item \code{\link[mlogit:mlogit]{mlogit}} of package \code{mlogit} (logit regression);
 \item \code{\link[nnet:multinom]{multinom}} of package \code{nnet} (logit regression);
 \item \code{\link[MASS:polr]{polr}} of package \code{MASS} (ordinal logit regression);
-\item \code{\link[mlogit:mlogit]{mlogit}} of package \code{mlogit} (logit regression);
-\item \code{\link[VGAM:vgam]{vgam}} of package \code{VGAM} (logit regression).
+\item \code{\link[VGAM:vgam]{vgam}} and \code{\link[VGAM:vglm]{vglm}} of package \code{VGAM} (logit regression).
 }
 
-Moreover, explicit matrix of regression coefficients can be passed to
-\code{\link[=field3logit]{field3logit()}}. See examples and function \code{\link[=field3logit]{field3logit()}} for further
-details.
+Moreover, explicit estimates can be passed to \code{\link[=field3logit]{field3logit()}}. See examples
+and functions \code{\link[=field3logit]{field3logit()}} and \code{\link[=extract3logit]{extract3logit()}} for further details.
 }
 
 \examples{
 \dontrun{
 data(cross_1year)
 
-# Read from "nnet::multinom"
+# Read from "nnet::multinom" (categorical logit)
 library(nnet)
 mod0 <- multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
 field0 <- field3logit(mod0, 'genderFemale')
 gg3logit(field0) + stat_field3logit()
 
-# Read from "MASS::polr"
+# Read from "MASS::polr" (ordinal logit)
 library(MASS)
 mydata <- cross_1year
 mydata$finalgrade <- factor(mydata$finalgrade,
@@ -77,19 +78,17 @@ mod1 <- polr(finalgrade ~ gender + irregularity, data = mydata)
 field1 <- field3logit(mod1, 'genderFemale')
 gg3logit(field1) + stat_field3logit()
 
-# Read from "mlogit::mlogit"
-library(mlogit)
-mydata <- mlogit.data(cross_1year, choice = 'employment_sit', shape = 'wide')
-mod2 <- mlogit(employment_sit ~ 0 | gender + finalgrade, data = mydata)
-field2 <- field3logit(mod2, 'genderFemale')
+# Read from list
+mod2 <- list(
+  B = matrix(
+    data = c(-2.05, 0.46, -2.46, 0.37),
+    nrow = 2,
+    dimnames = list(c('(Intercept)', 'genderFemale'))
+  ),
+  levels = c('Employed', 'Unemployed', 'Trainee')
+)
+field2 <- field3logit(mod2, c(0, 1))
 gg3logit(field2) + stat_field3logit()
-
-# Read from matrix
-M <- matrix(c(-2.05, 0.46, -2.46, 0.37), nrow = 2)
-rownames(M) <- c('(Intercept)', 'genderFemale')
-attr(M, 'labs') <- c('Employed', 'Unemployed', 'Trainee')
-field3 <- field3logit(M, c(0, 1))
-gg3logit(field3) + stat_field3logit()
 }
 
 }

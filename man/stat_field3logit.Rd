@@ -18,10 +18,12 @@ stat_field3logit(
 \arguments{
 \item{mapping}{list of aesthetic mappings to be used for plot. Mandatory
 aesthetics should not be specified if \code{field3loglit} or \code{multifield3logit}
-object is passed to \code{data}. See secion"Aesthetic mappings" of
+object is passed to \code{data}. See secion \strong{Aesthetic mappings} of
 \code{\link[=gg3logit]{gg3logit()}} for details.}
 
-\item{data}{a \code{field3logit} or a \code{multifield3logit} object.}
+\item{data}{a \code{field3logit} object, a \code{multifield3logit} object, or
+a \code{data.frame} structured like a fortified \code{field3logit} or a
+\code{multifield3logit} object.}
 
 \item{geom}{The geometric object to use display the data}
 
@@ -42,10 +44,7 @@ the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 \item{arrow.}{specification for arrow heads, as created by
 function \code{\link[grid:arrow]{arrow}} of package \code{\link[grid:grid-package]{grid}}.}
 
-\item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}. These are
-often aesthetics, used to set an aesthetic to a fixed value, like
-\code{colour = "red"} or \code{size = 3}. They may also be parameters
-to the paired geom/stat.}
+\item{...}{additional arguments passed through to \code{\link[ggtern:ggtern]{ggtern}}.}
 }
 \description{
 \code{\link[=stat_field3logit]{stat_field3logit()}} adds a field to a \code{\link{gg3logit}} plot.

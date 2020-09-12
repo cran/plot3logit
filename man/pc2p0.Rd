@@ -22,8 +22,8 @@ if the model is \emph{ordinal}.}
 
 \item{edge}{width of the border of the ternary plot.}
 
-\item{flink}{named \code{list} of two functions: \code{P2XB}
-and \code{XB2P}. The former is the link function, whereas
+\item{flink}{named \code{list} of two functions: \code{linkfun}
+and \code{linkinv}. The former is the link function, whereas
 the latter is its inverse.}
 }
 \value{
@@ -44,16 +44,16 @@ library(magrittr)
 depoDeltaB <- c(0.05, 0.08)
 plot3logit:::DeltaB2pc_cat3logit(depoDeltaB) \%>\%
   plot3logit:::pc2p0(depoDeltaB, flink = list(
-    P2XB = plot3logit:::P2XB_cat3logit,
-    XB2P = plot3logit:::XB2P_cat3logit))
+    linkfun = plot3logit:::linkfun_cat3logit,
+    linkinv = plot3logit:::linkinv_cat3logit))
 
 # For the ordinal logit model
 depoDeltaB <- 0.08
 depoalpha <- c(-0.4, 0.4)
 plot3logit:::DeltaB2pc_ord3logit(depoDeltaB, depoalpha) \%>\%
   plot3logit:::pc2p0(depoDeltaB, flink = list(
-    P2XB = function(x) plot3logit:::P2XB_ord3logit(x, depoalpha),
-    XB2P = function(x) plot3logit:::XB2P_ord3logit(x, depoalpha)))
+    linkfun = function(x) plot3logit:::linkfun_ord3logit(x, depoalpha),
+    linkinv = function(x) plot3logit:::linkinv_ord3logit(x, depoalpha)))
 
 }
 \keyword{internal}

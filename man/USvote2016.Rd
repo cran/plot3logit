@@ -8,22 +8,22 @@
 \code{tibble} (\code{data.frame}) with 8000 observations of 7 variables:
 \describe{
 \item{idcode:}{voter identifier (integer).}
-\item{vote:}{declared vote, afactor with three levels: "Clinton", "Trump",
-"Other".}
-\item{race:}{race, a factor with six levels: "White", "Black", "Hispanic",
-"Asian", "Mixed",
-"Other".}
-\item{educ:}{level of education, a factor with six levels: "No high school",
-"High school grad.", "Some college", "2-year college", "4-year college",
-"Post-grad".}
-\item{gender:}{gender, a factor with four levels: "Male", "Female", "Skipped",
-"Not Asked".}
+\item{vote:}{declared vote, afactor with three levels: \emph{Clinton}, \emph{Trump},
+\emph{Other}.}
+\item{race:}{race, a factor with six levels: \emph{White}, \emph{Black}, \emph{Hispanic},
+\emph{Asian}, \emph{Mixed},
+\emph{Other}.}
+\item{educ:}{level of education, a factor with six levels: \emph{No high school},
+\emph{High school grad.}, \emph{Some college}, \emph{2-year college}, \emph{4-year college},
+\emph{Post-grad}.}
+\item{gender:}{gender, a factor with four levels: \emph{Male}, \emph{Female},
+\emph{Skipped}, \emph{Not Asked}.}
 \item{birthyr:}{decades when the voter was born, a factor with six levels:
-"[1920,1940)", "[1940,1950)", "[1950,1960)", "[1960,1970)", "[1970,1980)",
-"[1980,2000)".}
+\emph{[1920,1940)}, \emph{[1940,1950)}, \emph{[1950,1960)}, \emph{[1960,1970)}, \emph{[1970,1980)},
+\emph{[1980,2000)}.}
 \item{famincome:}{income (in USD) of voter's family, a factor with five
-levels: "[0; 30,000)", "[30,000; 60,000)", "[60,000; 100,000)",
-"[100,000; 150,000)", "[150,000; Inf)".}
+levels: \emph{[0; 30,000)}, \emph{[30,000; 60,000)}, \emph{[60,000; 100,000)},
+\emph{[100,000; 150,000)}, \emph{[150,000; Inf)}.}
 }
 }
 \description{

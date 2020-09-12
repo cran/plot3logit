@@ -17,15 +17,15 @@
 field3logit(
   model,
   delta,
-  label = "<empty>",
+  label = "",
   p0 = NULL,
-  alpha = NULL,
-  vcov = NULL,
   nstreams = 8,
   narrows = Inf,
   edge = 0.01,
   conf = NA,
-  npoints = 100
+  npoints = 100,
+  alpha = deprecated(),
+  vcov = deprecated()
 )
 
 \method{print}{field3logit}(x, ...)
@@ -46,11 +46,11 @@ field3logit(
 
 \method{labels}{field3logit}(object, ...)
 
-\method{labels}{field3logit}(x) <- value
+\method{labels}{field3logit}(object) <- value
 }
 \arguments{
-\item{model}{either a fitted trinomial model or a matrix of regressor
-coefficients. See section \emph{Compatibility} and examples of
+\item{model}{either a fitted trinomial model or a list properly structured.
+See section \strong{Details} of \code{\link[=extract3logit]{extract3logit()}} and the last example of
 \code{\link{plot3logit-package}}.}
 
 \item{delta}{the change in the values of covariates to be represented.
@@ -69,31 +69,26 @@ of the field. If not specified, \code{field3logit} automatically compute
 \code{nstreams} candidate points so that arrows are evenly distributed over
 the ternary plot area. See Examples.}
 
-\item{alpha}{\code{numeric} vector of length two where constants \eqn{\alpha^{(1)}}
-and \eqn{\alpha^{(2)}} are stored (only for ordinal models), as
-defined in Equation (7) of \insertCite{santi2019;textual}{plot3logit}.}
-
-\item{vcov}{(\strong{only if} the model is read from a matrix, otherwise it will
-be ignored) variance-covariance matrix of parameter estimates. The elements
-of the variance-covariance matrix should be ordered according to the matrix
-of parameter estimates where the categories of the dependent variable are
-the slow index, whereas the covariates are the fast index.}
-
 \item{nstreams}{number of stream lines of the field to be computed. In case
 of ordinal models, this parameter is ineffective, as only one curve
-can be drawn. The parameter is ineffective also in case that argument
-\code{p0} is set.}
+can be drawn. The parameter is ineffective also if argument \code{p0} is set.}
 
-\item{narrows}{maximum number of arrows to be drawn per curve.}
+\item{narrows}{maximum number of arrows to be drawn per stream line.}
 
 \item{edge}{minimum distance between each arrow (or point) and
 the edge of the ternary plot.}
 
 \item{conf}{confidence level of confidence regions to be computed \strong{for each
-arrow} of the field.}
+arrow} of the vector field.}
 
 \item{npoints}{number of points of the border to be computed \strong{for each
 confidence region}.}
+
+\item{alpha}{deprecated argument. It may be removed in a future version of
+the package.}
+
+\item{vcov}{deprecated argument. It may be removed in a future version of the
+package.}
 
 \item{x, object}{object of class \code{field3logit}.}
 
@@ -116,7 +111,8 @@ the generic \code{fortify}.}
 }
 \value{
 \code{S3} object of class \code{field3logit} structured as a named \code{list} or an object
-of class \code{multifield3logit} if \code{delta} is a \code{list}.
+of class \code{multifield3logit} if \code{delta} is a \code{list} or syntax \verb{<<...>>} is
+used.
 }
 \description{
 \code{\link[=field3logit]{field3logit()}} computes the vector field associated to a change in
@@ -125,8 +121,8 @@ logit model either fitted by some multinomial regression function or
 explicitly specified.
 
 The method \code{\link[=plot]{plot()}} draws the ternary plot using standard graphics methods
-provided by package \code{Ternary}. See function \code{\link[=gg3logit]{gg3logit()}} for plotting
-through the package \code{\link[ggtern:ggtern_package]{ggtern}} based on the
+provided by package \code{Ternary}. See functions \code{\link[=gg3logit]{gg3logit()}} and \code{\link[=autoplot]{autoplot()}}
+for plotting through the package \code{\link[ggtern:ggtern_package]{ggtern}} based on the
 grammar of graphics.
 
 Methods \code{\link[=as.data.frame]{as.data.frame()}}, \code{\link[=as_tibble]{as_tibble()}}, \code{\link[=fortify]{fortify()}} and \code{\link[=tidy]{tidy()}} permits
@@ -155,12 +151,21 @@ the function \code{field3logit} is run once for every component of \code{delta},
 and the set of generated \code{field3logit} objects is combined into a single
 object of class \code{multifield3logit}. The compoments of the list passed to
 \code{delta} must be named lists whose elements are used as arguments of each call
-of function \code{field3logit}, whereas the arguments specified in the parent call
+of function \code{field3logit}, whilst the arguments specified in the parent call
 of \code{field3logit} are used as default values. It follows that arguments shared
 by all fields can be specified once in the parent call of \code{field3logit}, and
 only arguments which changes from field to field (such as \code{delta} and
 \code{label}) should be set in the lists making up the list passed to \code{delta}. See
-the last example in section Examples and the help of \code{\link[=multifield3logit]{multifield3logit()}}.
+the penultimate example in section Examples and the help of
+\code{\link[=multifield3logit]{multifield3logit()}}.
+
+\strong{Finally}, when argument \code{delta} is a character, it is possible to indicate
+the name of a \code{factor} covariate between delimiters \verb{<<}, \verb{>>}. In that case,
+\code{\link[=field3logit]{field3logit()}} creates a \code{multifield3logit} object where each field
+corresponds to the effect of each dummy generated by the \code{factor} regressor.
+If more than one regressor is included between delimiters \verb{<<}, \verb{>>}, all
+combinations between dummies are generated. See the last example in section
+\strong{Examples}.
 }
 \examples{
 data(cross_1year)
@@ -199,9 +204,13 @@ depo <- list(
 mfields <- field3logit(mod1, delta = depo, p0 = refpoint, narrows = 1)
 mfields
 
-}
-\references{
-\insertAllCited{}
+# Sintax "<<...>>" for categorical covariates
+mfields <- field3logit(
+  model = mod1, delta = '<<finalgrade>>', label = 'Final grade',
+  p0 = refpoint, narrows = 1
+)
+mfields
+
 }
 \seealso{
 \code{\link[=multifield3logit]{multifield3logit()}}, \code{\link[=gg3logit]{gg3logit()}}, \code{\link[=autoplot]{autoplot()}}.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/conf_region.R
 \name{add_confregions}
 \alias{add_confregions}
-\title{Computes the confidence regions of covariate effects}
+\title{Compute the confidence regions of covariate effects}
 \usage{
 add_confregions(x, conf = 0.95, npoints = 100)
 }
@@ -26,7 +26,8 @@ confidence regions, they will be updated if the value of \code{conf} is differen
 \examples{
 data(cross_1year)
 
-mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
+mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade,
+  data = cross_1year)
 field0 <- field3logit(mod0, 'genderFemale')
 field0
 add_confregions(field0)

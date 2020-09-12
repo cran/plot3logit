@@ -18,8 +18,8 @@ if the model is \emph{ordinal}.}
 
 \item{nmax}{maximum number of vectors.}
 
-\item{flink}{named \code{list} of two functions: \code{P2XB}
-and \code{XB2P}. The former is the link function, whereas
+\item{flink}{named \code{list} of two functions: \code{linkfun}
+and \code{linkinv}. The former is the link function, whereas
 the latter is its inverse.}
 }
 \value{
@@ -34,6 +34,6 @@ generates the path of arrows until the edge of the ternary plot is
 reached.
 }
 \seealso{
-\code{\link[=P2XB]{P2XB()}}, \code{\link[=XB2P]{XB2P()}}.
+\code{\link[=linkfun]{linkfun()}}, \code{\link[=linkinv]{linkinv()}}.
 }
 \keyword{internal}

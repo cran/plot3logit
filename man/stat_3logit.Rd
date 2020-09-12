@@ -19,7 +19,9 @@ stat_3logit(
 \item{mapping_field, mapping_conf}{aesthetic mappings passed to argument
 \code{mapping} of \code{\link[=stat_field3logit]{stat_field3logit()}} and \code{\link[=stat_conf3logit]{stat_conf3logit()}}.}
 
-\item{data}{a \code{field3logit} or a \code{multifield3logit} object.}
+\item{data}{a \code{field3logit} object, a \code{multifield3logit} object, or
+a \code{data.frame} structured like a fortified \code{field3logit} or a
+\code{multifield3logit} object.}
 
 \item{params_field, params_conf}{graphical parameters passed to argument
 \code{mapping} of \code{\link[=stat_field3logit]{stat_field3logit()}} and \code{\link[=stat_conf3logit]{stat_conf3logit()}}.}
@@ -40,7 +42,7 @@ the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 \code{\link[=stat_field3logit]{stat_field3logit()}} is returned.}
 }
 \description{
-\code{\link[=stat_3logit]{stat_3logit()}} adds a field and its confidence regions to a \code{\link{gg3logit}}
+\code{\link[=stat_3logit]{stat_3logit()}} adds a field and confidence regions to a \code{\link{gg3logit}}
 plot. \code{\link[=stat_3logit]{stat_3logit()}} is a wrapper for stats \code{\link[=stat_field3logit]{stat_field3logit()}} and
 \code{\link[=stat_conf3logit]{stat_conf3logit()}} which are jointly applied.
 }

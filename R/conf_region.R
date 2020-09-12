@@ -53,11 +53,11 @@ confregion <- function(mu, Sig, conf = 0.95, npoints = 100) {
   # Compute the ellipse
   ellipse::ellipse(x = Sig, centre = mu, level = conf) %>%
     # Compute the ternary coordinates
-    XB2P_cat3logit %>%
+    linkinv_cat3logit %>%
     # Prepare the output
     data.frame %>%
     set_colnames(c('p1', 'p2', 'p3')) %>%
-    return
+    return()
 }
 
 
@@ -78,7 +78,8 @@ confregion <- function(mu, Sig, conf = 0.95, npoints = 100) {
 #' @examples
 #' data(cross_1year)
 #'
-#' mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
+#' mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade,
+#'   data = cross_1year)
 #' field0 <- field3logit(mod0, 'genderFemale')
 #' plot3logit:::add_confregions_field3logit(field0)
 #'
@@ -97,9 +98,9 @@ add_confregions_field3logit <- function(x, conf = 0.95, npoints = 100) {
   # Compute the confidence regions
   x$effects %<>%
     lapply(function(w) lapply(w, function(y) {
-    	  P2XB(y$to, x) %>%
+    	  linkfun(y$to, x) %>%
         confregion(SigMa) %>%
-        set_colnames(x$lab) -> y$confregion
+        set_colnames(x$levels) -> y$confregion
         
       return(y)
     }))
@@ -115,7 +116,7 @@ add_confregions_field3logit <- function(x, conf = 0.95, npoints = 100) {
 
 
 
-#' Computes the confidence regions of covariate effects
+#' Compute the confidence regions of covariate effects
 #'
 #' Given the confidence level, it computes the confidence regions of the effects
 #' for each arrow of the `field3logit` or `multifield3logit` object given in
@@ -133,25 +134,24 @@ add_confregions_field3logit <- function(x, conf = 0.95, npoints = 100) {
 #' @examples
 #' data(cross_1year)
 #'
-#' mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
+#' mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade,
+#'   data = cross_1year)
 #' field0 <- field3logit(mod0, 'genderFemale')
 #' field0
 #' add_confregions(field0)
 #'
 #' @export
 add_confregions <- function(x, conf = 0.95, npoints = 100) {
-  # Check the class of input
-  depo <- inherits(x, c('field3logit','multifield3logit'), which = TRUE)
-  
-  # Compute the confidence regions
-  if (all(depo == 0)) {
-  	stop('Only objects of class "field3logit" and "multifield3logit" are allowed')
-  } else if (depo[2] == 0) {
-  	x %<>% add_confregions_field3logit(conf, npoints)
-  } else {
+
+  # Check classes and compute confidence regions
+  if (inherits(x, 'multifield3logit')) {
   	x %<>%
   	  lapply(add_confregions_field3logit, conf = conf, npoints = npoints) %>%
-  	  structure(class = c('multifield3logit', 'field3logit'))
+  	  structure(class = 'multifield3logit')
+  } else if (inherits(x, 'field3logit')) {
+  	x %<>% add_confregions_field3logit(conf, npoints)
+  } else {
+  	stop('Only objects of class "field3logit" and "multifield3logit" are allowed')
   }
 
   # Return the updated object

@@ -27,7 +27,9 @@
 \item{mapping_conf}{aesthetic mappings passed to argument
 \code{mapping} of \code{\link[=stat_field3logit]{stat_field3logit()}} and \code{\link[=stat_conf3logit]{stat_conf3logit()}}.}
 
-\item{data}{a \code{field3logit} or a \code{multifield3logit} object.}
+\item{data}{a \code{field3logit} object, a \code{multifield3logit} object, or
+a \code{data.frame} structured like a fortified \code{field3logit} or a
+\code{multifield3logit} object.}
 
 \item{params_field}{graphical parameters passed to argument
 \code{mapping} of \code{\link[=stat_field3logit]{stat_field3logit()}} and \code{\link[=stat_conf3logit]{stat_conf3logit()}}.}

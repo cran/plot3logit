@@ -5,7 +5,7 @@
 #' objects simultaneously and permit new `multifield3logit` objects to be
 #' easily created by means of the sum operator "`+`".
 #'
-#' @param x,y,model object of class `field3logit` or `multifield3logit`.
+#' @param x,y,model,object object of class `field3logit` or `multifield3logit`.
 #' @inheritParams field3logit
 #' @param ... other arguments passed to or from other methods.
 #' @param maxitems maximum number of items to be enumerated when an object of
@@ -60,13 +60,12 @@
 multifield3logit <- function(x, ...) {
   if (is.null(x)) { return(NULL) }
   
-  depo <- inherits(x, c('field3logit','multifield3logit'), which = TRUE)
-  if (all(depo == 0)) {
+  if (!inherits(x, c('field3logit','multifield3logit'))) {
   	stop('Only objects of class "field3logit" and "multifield3logit" are allowed')
-  } else if (depo[2] == 0) {
+  } else if (inherits(x, 'field3logit')) {
   	x %<>%
   	  list %>%
-  	  structure(class = c('multifield3logit', 'field3logit'))
+  	  structure(class = c('multifield3logit', 'Hfield3logit'))
   }
   return(x)
 }
@@ -75,10 +74,10 @@ multifield3logit <- function(x, ...) {
 
 #' @rdname multifield3logit
 #' @export
-`+.field3logit` <- function(x, y) {
+`+.Hfield3logit` <- function(x, y) {
   c(multifield3logit(x), multifield3logit(y)) %>%
-    structure(class = c('multifield3logit', 'field3logit')) %>%
-    return
+    structure(class = c('multifield3logit', 'Hfield3logit')) %>%
+    return()
 }
 
 
@@ -116,24 +115,20 @@ print.multifield3logit <- function(x, maxitems = 10, ...) {
 plot.multifield3logit <- function(x, y = NULL, add = FALSE, col = NA,
   legend = TRUE, ...) {
   	
-  x %<>% add(y)
-  
   if (is.null(col)) { col <- 'black' }
-  if (is.na(col)) { col <- 1:length(x) }
+  if (is.na(col)) { col <- seq_along(x) }
   if (length(col) == 1) { col %<>% rep(length(x)) }
   
-  lapply(1:length(x), function(j) {
+  lapply(seq_along(x), function(j) {
   	plot(x[[j]], add = (j > 1) + (j == 1) * add, col = col[j], ...)
-  }) -> out
+  }) -> void
   
-  if (legend) {
-  	legend(
-  	  x = 'topright', legend = labels(x),
-  	  col = col, lwd = 2
-  	)
-  }
   
-  invisible(out)
+  list(
+    legend_text = labels(x),
+    legend_col = col
+  ) %>%
+    invisible()
 }
 
 
@@ -144,7 +139,7 @@ as_tibble.multifield3logit <- function(x, ..., wide = TRUE) {
   lapply(x, as_tibble.field3logit, wide = wide) %>%
     purrr::reduce(bind_rows) %>%
     mutate(group = forcats::fct_anon(factor(paste0(.$label, .$idarrow)), 'H')) %>%
-    return
+    return()
 }
 
 
@@ -154,7 +149,7 @@ as_tibble.multifield3logit <- function(x, ..., wide = TRUE) {
 as.data.frame.multifield3logit <- function(x, ..., wide = TRUE) {
   as_tibble.multifield3logit(x, ..., wide = wide) %>%
     as.data.frame %>%
-    return
+    return()
 }
 
 
@@ -162,8 +157,7 @@ as.data.frame.multifield3logit <- function(x, ..., wide = TRUE) {
 #' @rdname multifield3logit
 #' @export
 fortify.multifield3logit <- function(model, data, ..., wide = TRUE) {
-  as_tibble.multifield3logit(model, ..., wide = wide) %>%
-    return
+  as_tibble.multifield3logit(model, ..., wide = wide)
 }
 
 
@@ -171,8 +165,7 @@ fortify.multifield3logit <- function(model, data, ..., wide = TRUE) {
 #' @rdname multifield3logit
 #' @export
 tidy.multifield3logit <- function(x, ..., wide = TRUE) {
-  as_tibble.multifield3logit(x, ..., wide = wide) %>%
-    return
+  as_tibble.multifield3logit(x, ..., wide = wide)
 }
 
 
@@ -180,19 +173,19 @@ tidy.multifield3logit <- function(x, ..., wide = TRUE) {
 #' @rdname multifield3logit
 #' @export
 labels.multifield3logit <- function(object, ...) {
-  object %>% lapply(labels) %>% unlist %>% return
+  object %>% lapply(labels) %>% unlist %>% return()
 }
 
 
 
 #' @rdname multifield3logit
 #' @export
-`labels<-.multifield3logit` <- function(x, value) {
-  if(length(x) != length(value)) { stop('length mismatch') }
+`labels<-.multifield3logit` <- function(object, value) {
+  if(length(object) != length(value)) { stop('length mismatch') }
   
-  for (i in length(x)) { labels(x[i]) <- value[i] }
+  for (i in length(object)) { labels(object[i]) <- value[i] }
 
-  return(x)
+  return(object)
 }
 
 
@@ -215,9 +208,6 @@ labels.multifield3logit <- function(object, ...) {
 `[<-.multifield3logit` <- function(x, i, value) {
   if (!inherits(value, 'field3logit')) {
   	stop('Only objects of class "field3logit" are allowed')
-  }
-  if (inherits(value, 'multifield3logit')) {
-  	stop('Objects of class "multifield3logit" are not allowed')
   }
   
   x[[i]] <- value

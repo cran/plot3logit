@@ -23,7 +23,8 @@ the effects for each arrow of the \code{field3logit} object.
 \examples{
 data(cross_1year)
 
-mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
+mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade,
+  data = cross_1year)
 field0 <- field3logit(mod0, 'genderFemale')
 plot3logit:::add_confregions_field3logit(field0)
 

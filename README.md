@@ -22,7 +22,7 @@ means of functions `gg3logit` and `stat_field3logit`.
 
 The `plot3logit` package inherits graphical classes and methods from the
 package `ggtern` (Hamilton and Ferry 2018) which, in turn, is based on
-the package `ggplot2` (Wickham 2017).
+the package `ggplot2` (Wickham 2016).
 
 Graphical representation based on **standard graphics** is made
 available through the package `Ternary` (Smith 2017) by functions
@@ -42,14 +42,15 @@ vignette('plot3logit-overview', package = 'plot3logit')
 Function `field3logit` of package `plot3logit` can read trinomial
 regression estimates from the output of the following functions:
 
+  - `clm` and `clm2` of package `ordinal` (ordinal logit regression);
+  - `mlogit` of package `mlogit` (logit regression);
   - `multinom` of package `nnet` (logit regression);
   - `polr` of package `MASS` (ordinal logit regression);
-  - `mlogit` of package `mlogit` (logit regression);
-  - `vgam` of package `VGAM` (logit regression).
+  - `vgam` and `vglm` of package `VGAM` (logit regression).
 
-Moreover, explicit matrix of regression coefficients can be passed to
-`field3logit`. See the help of the package (type `?
-'plot3logit-package'`) for furhter details.
+Moreover, explicit estimates can be passed to `field3logit()`. See the
+help of the package (type `? 'plot3logit-package'`) and the help of
+functions `field3logit()` and `extract3logit()` for further details.
 
 ## An example
 
@@ -117,9 +118,9 @@ Smith, M. R. 2017. “Ternary: An R Package for Creating Ternary Plots.”
 
 </div>
 
-<div id="ref-wickham2016">
+<div id="ref-wickham2016a">
 
-Wickham, H. 2017. *ggplot2: Elegant Graphics for Data Analysis*. New
+Wickham, H. 2016. *ggplot2: Elegant Graphics for Data Analysis*. New
 York: Springer-Verlag.
 
 </div>

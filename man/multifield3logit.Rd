@@ -2,7 +2,7 @@
 % Please edit documentation in R/multifield3logit.R
 \name{multifield3logit}
 \alias{multifield3logit}
-\alias{+.field3logit}
+\alias{+.Hfield3logit}
 \alias{print.multifield3logit}
 \alias{plot.multifield3logit}
 \alias{as_tibble.multifield3logit}
@@ -17,7 +17,7 @@
 \usage{
 multifield3logit(x, ...)
 
-\method{+}{field3logit}(x, y)
+\method{+}{Hfield3logit}(x, y)
 
 \method{print}{multifield3logit}(x, maxitems = 10, ...)
 
@@ -33,14 +33,14 @@ multifield3logit(x, ...)
 
 \method{labels}{multifield3logit}(object, ...)
 
-\method{labels}{multifield3logit}(x) <- value
+\method{labels}{multifield3logit}(object) <- value
 
 \method{[}{multifield3logit}(x, i, drop = TRUE)
 
 \method{[}{multifield3logit}(x, i) <- value
 }
 \arguments{
-\item{x, y, model}{object of class \code{field3logit} or \code{multifield3logit}.}
+\item{x, y, model, object}{object of class \code{field3logit} or \code{multifield3logit}.}
 
 \item{...}{other arguments passed to or from other methods.}
 
@@ -59,8 +59,6 @@ ternary plot should be drawn (\code{add = FALSE}).}
 
 \item{data}{not used. Argument included only for interface compatibility with
 the generic \code{fortify}.}
-
-\item{object}{object of class \code{field3logit}.}
 
 \item{value}{value to be assigned.}
 

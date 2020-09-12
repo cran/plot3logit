@@ -19,37 +19,37 @@
 #' @references
 #' \insertAllCited{}
 #'
-#' @seealso [`XB2P`].
+#' @seealso [`linkinv`].
 #'
-#' @name P2XB
-P2XB <- function(P, model) {
+#' @name linkfun
+linkfun <- function(P, model) {
   if (model$ordinal) {
-  	out <- P2XB_ord3logit(P)
+  	out <- linkfun_ord3logit(P)
   } else {
-  	out <- P2XB_cat3logit(P)
+  	out <- linkfun_cat3logit(P)
   }
   return(out)
 }
 
 
 
-#' @rdname P2XB
+#' @rdname linkfun
 #' @keywords internal
-P2XB_cat3logit<- function(P) {
+linkfun_cat3logit<- function(P) {
   if (is.vector(P)) { P %<>% matrix(1) }
   
   P %>%
     as.matrix %>%
     { .[ , 2:3, drop = FALSE] / .[1] } %>%
     log %>%
-    return
+    return()
 }
 
 
 
-#' @rdname P2XB
+#' @rdname linkfun
 #' @keywords internal
-P2XB_ord3logit<- function(P, alpha) {
+linkfun_ord3logit<- function(P, alpha) {
   if (is.vector(P)) { P %<>% matrix(1) }
   
   P %>%
@@ -58,7 +58,7 @@ P2XB_ord3logit<- function(P, alpha) {
     { . / (1 - .) } %>%
     log %>%
     { alpha[1] - . } %>%
-    return
+    return()
 }
 
 

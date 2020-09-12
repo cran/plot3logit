@@ -9,11 +9,9 @@ gg3logit(data = NULL, mapping = aes(), ...)
 \arguments{
 \item{data}{a \code{field3logit} object, a \code{multifield3logit} object, or
 a \code{data.frame} structured like a fortified \code{field3logit} or a
-\code{multifield3logit} object. If a \code{field3logit} or a \code{multifield3logit}
-is passed, none of the aesthetics mappings listed in Section
-"Aesthetic mappings" below has to be specified.}
+\code{multifield3logit} object.}
 
-\item{mapping}{list of aesthetic mappings to use for plot. If a
+\item{mapping}{list of aesthetic mappings to be used for plot. If a
 \code{field3logit} or a \code{multifield3logit} is passed to \code{data}, none of the
 aesthetics mappings listed in section \emph{Aesthetic mappings} below has to be
 specified (if specified, they will be overwritten).}
@@ -22,9 +20,9 @@ specified (if specified, they will be overwritten).}
 }
 \description{
 \code{gg3logit} initialises a \code{\link[ggplot2:ggplot]{ggplot}} object through
-\code{\link[ggtern:ggtern]{ggtern}}. If a fortified \code{field3logit} or a
-\code{multifield3logit} object is passed to argument \code{data}, the mandatory
-aesthetics of the ternary plot are automatically set.
+\code{\link[ggtern:ggtern]{ggtern}}. If a \code{field3logit} or a \code{multifield3logit}
+object is passed to argument \code{data}, the mandatory aesthetics of the ternary
+plot are automatically set.
 }
 \section{Aesthetic mappings}{
 

@@ -15,7 +15,7 @@
 #'
 #' @keywords internal
 convex_comb<- function(w, x, y, simplify = TRUE) {
-  out<- sapply(w, function(w) { y + w * (x - y) }, simplify = simplify)
+  out <- sapply(w, function(w) { y + w * (x - y) }, simplify = simplify)
   if (simplify) { out %<>% t }
   out
 }
@@ -70,6 +70,6 @@ tbl2matrix <- function(x, .rownames = NULL) {
   x %>%
     as.matrix %>%
     set_rownames(depo) %>%
-    return
+    return()
 }
 
