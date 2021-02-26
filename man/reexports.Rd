@@ -3,8 +3,8 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{tidy}
 \alias{autoplot}
+\alias{tidy}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{

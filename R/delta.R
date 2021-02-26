@@ -1,10 +1,41 @@
 
+namnum2expr <- function(x) {
+  # Remove unchanged covariates
+  x <- x[x != 0]
+  
+  # Prepare names
+  xnam <- names(x)
+  if (any(xnam == '')) {
+    stop('all names of named vector passed to "delta" must be specified')
+  }
+  pos <- grepl('^[[:alpha:]]{1}[[:alnum:]]*$', xnam)
+  xnam[pos == FALSE] %<>% paste0('`', ., '`')
+  
+  # Initialisation
+  out <- ''
+  
+  # Generate expression
+  for (j in seq_along(x)) {
+    depo <- paste(x[j], '*', xnam[j])
+    if (j > 1) { depo %<>% stringr::str_replace_all('-', ' - ') }
+    if (x[j] == 1)  { depo <- xnam[j] }
+    if (x[j] == -1) { depo <- paste(' -', xnam[j]) }
+    if ((x[j] > 0) & (j > 1)) { depo %<>% paste(' +', .) }
+    out %<>% paste0(depo)
+  }
+  
+  # Output
+  return(out)
+}
+
+
+
 handle_block_delta <- function(block, covnames, pattern = '<<(.+?)>>') {
   if (!is.numeric(block$delta) & (stringr::str_detect(block$delta[1], pattern))) {
   	# Find matches
     cand <- stringr::str_match(block$delta, pattern)[1, 2]
  
-    # List of matching covatiates
+    # List of matching covariates
   	grep(paste0('^', cand), covnames, value = TRUE) %>%
   	  # Generate new blocks
   	  lapply(function(x) {
@@ -36,7 +67,11 @@ handle_block_delta <- function(block, covnames, pattern = '<<(.+?)>>') {
 pre_process_delta <- function(delta, model) {
   # Check and structure
   if (is.numeric(delta)) {
-  	delta <- list(list(delta = delta))
+    if (is.null(names(delta))) {
+      delta <- list(list(delta = delta))
+    } else {
+      delta <- list(list(delta = namnum2expr(delta)))
+    }
   } else if (is.character(delta)) {
   	delta <- lapply(delta, function(x) { list(delta = x) })
   } else {
@@ -50,7 +85,7 @@ pre_process_delta <- function(delta, model) {
     # Prepare labels
     lapply(function(x) {
     	  if (!is.null(x$label2)) {
-    	    x[['label']] %<>% paste(paste(x$label2, collapse = '; '))
+    	    x[['label']] %<>% paste0(paste(x$label2, collapse = '; '))
     	    x$label2 <- NULL
     	  }
     	  x

@@ -47,7 +47,7 @@ package (type \code{vignette('plot3logit-overview')}) and the help of function
 Function \code{\link[=field3logit]{field3logit()}} can read trinomial regression estimates from the
 output of the following functions:
 \itemize{
-\item \code{\link[ordinal:clm]{clm}} and \code{\link[ordinal:clm2]{clm2}} of package \code{ordinal}
+\item \code{\link[ordinal:clm]{clm}} and \code{\link[ordinal:clmOld]{clm2}} of package \code{ordinal}
 (ordinal logit regression);
 \item \code{\link[mlogit:mlogit]{mlogit}} of package \code{mlogit} (logit regression);
 \item \code{\link[nnet:multinom]{multinom}} of package \code{nnet} (logit regression);
