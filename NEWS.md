@@ -1,4 +1,25 @@
 
+# plot3logit 3.1.2
+
+
+## Typos and other marginal changes
+
+* Revision of help and references.
+
+
+
+
+
+# plot3logit 3.1.1
+
+
+## Major changes
+
+* Solved a bug on `add_confregions()` (class of returned objects).
+
+
+
+
 
 # plot3logit 3.1.0
 

@@ -4,6 +4,7 @@
 \encoding{UTF-8}
 \name{plot3logit-package}
 \alias{plot3logit-package}
+\alias{_PACKAGE}
 \title{Ternary Plots for Trinomial Regression Models}
 \description{
 An implementation of the ternary plot for interpreting regression
@@ -39,7 +40,7 @@ of \code{field3logit} class.
 
 Since version 2.0.0, \code{plot3logit} can also compute and draw confidence
 regions associated to the covariate effects. See the vignette of the
-package (type \code{vignette('plot3logit-overview')}) and the help of function
+package (type \code{vignette("plot3logit-overview")}) and the help of function
 \code{\link[=stat_conf3logit]{stat_conf3logit()}} for some examples.
 }
 \section{Compatibility}{
@@ -52,7 +53,8 @@ output of the following functions:
 \item \code{\link[mlogit:mlogit]{mlogit}} of package \code{mlogit} (logit regression);
 \item \code{\link[nnet:multinom]{multinom}} of package \code{nnet} (logit regression);
 \item \code{\link[MASS:polr]{polr}} of package \code{MASS} (ordinal logit regression);
-\item \code{\link[VGAM:vgam]{vgam}} and \code{\link[VGAM:vglm]{vglm}} of package \code{VGAM} (logit regression).
+\item \code{\link[VGAM:vgam]{vgam}} and \code{\link[VGAM:vglm]{vglm}} of package \code{VGAM} (logit
+regression).
 }
 
 Moreover, explicit estimates can be passed to \code{\link[=field3logit]{field3logit()}}. See examples
@@ -97,4 +99,15 @@ gg3logit(field2) + stat_field3logit()
 }
 \seealso{
 \code{\link[=field3logit]{field3logit()}}, \code{\link[=gg3logit]{gg3logit()}}, \code{\link[=TernaryField]{TernaryField()}}.
+}
+\author{
+\strong{Maintainer}: Flavio Santi \email{flavio.santi@univr.it} (\href{https://orcid.org/0000-0002-2014-1981}{ORCID})
+
+Authors:
+\itemize{
+  \item Maria Michela Dickson \email{mariamichela.dickson@unitn.it} (\href{https://orcid.org/0000-0002-4307-0469}{ORCID})
+  \item Giuseppe Espa \email{giuseppe.espa@unitn.it} (\href{https://orcid.org/0000-0002-0331-3630}{ORCID})
+  \item Diego Giuliani \email{diego.giuliani@unitn.it} (\href{https://orcid.org/0000-0002-7198-6714}{ORCID})
+}
+
 }
