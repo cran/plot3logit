@@ -27,8 +27,12 @@ levels: \emph{[0; 30,000)}, \emph{[30,000; 60,000)}, \emph{[60,000; 100,000)},
 }
 }
 \description{
-Self-reported votes from 2016 VOTER Survey by
-\insertCite{dfvsg2017;textual}{plot3logit}. Object \code{USvote2016} includes only
+Dataset based on self-reported votes from 2016 VOTER Survey by
+\insertCite{dfvsg2017;textual}{plot3logit}, as used in the examples in
+\insertCite{santi2022;textual}{plot3logit}.
+}
+\details{
+Object \code{USvote2016} includes only
 few variables based on the result of the survey, which are publicly available
 online. See file \code{"data-raw/USvote2016_prepare.R"} in the GitHub repository
 \code{"f-santi/plot3logit"} (\url{https://github.com/f-santi/plot3logit}), where

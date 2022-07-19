@@ -22,7 +22,8 @@ specified (if specified, they will be overwritten).}
 \code{gg3logit} initialises a \code{\link[ggplot2:ggplot]{ggplot}} object through
 \code{\link[ggtern:ggtern]{ggtern}}. If a \code{field3logit} or a \code{multifield3logit}
 object is passed to argument \code{data}, the mandatory aesthetics of the ternary
-plot are automatically set.
+plot are automatically set. See \insertCite{santi2022;textual}{plot3logit}
+for details and examples.
 }
 \section{Aesthetic mappings}{
 

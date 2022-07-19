@@ -9,7 +9,8 @@
 \description{
 An implementation of the ternary plot for interpreting regression
 coefficients of trinomial regression models, as proposed in
-\insertCite{santi2019;textual}{plot3logit}.
+\insertCite{santi2019;textual}{plot3logit}. For details on the features of
+the package, see \insertCite{santi2022;textual}{plot3logit}.
 }
 \details{
 The package permits the covariate effects of trinomial regression models to

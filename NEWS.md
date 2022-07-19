@@ -1,4 +1,15 @@
 
+# plot3logit 3.1.3
+
+
+## Minor changes
+
+* Added references and citations to the JSS article about the package.
+
+
+
+
+
 # plot3logit 3.1.2
 
 

@@ -72,7 +72,8 @@ g^\leftarrow(\eta)=g^\leftarrow([\eta_2,\eta_3]^\top)
 \frac{e^{\eta_3}}{1+e^{\eta_2}+e^{\eta_3}}
 \right]^\top\,.
 }
-For further details on notation see
+For further details and notation see
+\insertCite{santi2022;textual}{plot3logit} and
 \insertCite{santi2019;textual}{plot3logit}.
 }
 \examples{

@@ -128,8 +128,13 @@ grammar of graphics.
 Methods \code{\link[=as.data.frame]{as.data.frame()}}, \code{\link[=as_tibble]{as_tibble()}}, \code{\link[=fortify]{fortify()}} and \code{\link[=tidy]{tidy()}} permits
 the graphical information of a \code{field3logit} object to be exported in a
 standardised format (either a \code{data.frame} or a \code{tibble}).
+
+See \insertCite{santi2022;textual}{plot3logit} for details and examples.
 }
 \details{
+The content of this section is presented with plenty of details and examples
+in Sections 4.1 and 4.3 of \insertCite{santi2022;textual}{plot3logit}.
+
 Argument \code{delta} could be passed in one of the following formats:
 \itemize{
 \item explicitly, as a \code{numeric} vector corresponding to the change
