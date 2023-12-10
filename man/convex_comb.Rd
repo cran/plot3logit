@@ -18,9 +18,4 @@ output will be a \code{list}.}
 Given two vectors and one or multiple coefficients in \eqn{[0,1]},
 convex combinations of vectors are computed.
 }
-\examples{
-plot3logit:::convex_comb(c(0, 0.3, 0.5, 1), c(1, 0, 0), c(0, 1, 0))
-plot3logit:::convex_comb(c(0, 0.3, 0.5, 1), c(1, 0, 0), c(0, 1, 0), FALSE)
-
-}
 \keyword{internal}

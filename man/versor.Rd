@@ -17,10 +17,4 @@ versor(k, n, simplify = TRUE)
 \description{
 Given an \code{n}-dimensional space, the \code{k}-th versor is returned.
 }
-\examples{
-plot3logit:::versor(1, 3)
-plot3logit:::versor(3, 6)
-plot3logit:::versor(3, 6, FALSE)
-
-}
 \keyword{internal}

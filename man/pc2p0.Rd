@@ -28,6 +28,7 @@ the latter is its inverse.}
 }
 \value{
 A named \code{list} with two components:
+
 \item{status}{a \code{character} always equal to \code{"p0"}
 (see section \emph{Value} of \code{\link[=DeltaB2pc]{DeltaB2pc()}}).}
 \item{pp}{a \code{list} of ternary coordinates.}
@@ -37,23 +38,5 @@ Given the output of \code{\link[=DeltaB2pc_cat3logit]{DeltaB2pc_cat3logit()}} or
 \code{\link[=DeltaB2pc_ord3logit]{DeltaB2pc_ord3logit()}}, the coordinates of points on the
 edge are computed for each curve of the field of points
 given in input.
-}
-\examples{
-library(magrittr)
-# For the categorical logit model
-depoDeltaB <- c(0.05, 0.08)
-plot3logit:::DeltaB2pc_cat3logit(depoDeltaB) \%>\%
-  plot3logit:::pc2p0(depoDeltaB, flink = list(
-    linkfun = plot3logit:::linkfun_cat3logit,
-    linkinv = plot3logit:::linkinv_cat3logit))
-
-# For the ordinal logit model
-depoDeltaB <- 0.08
-depoalpha <- c(-0.4, 0.4)
-plot3logit:::DeltaB2pc_ord3logit(depoDeltaB, depoalpha) \%>\%
-  plot3logit:::pc2p0(depoDeltaB, flink = list(
-    linkfun = function(x) plot3logit:::linkfun_ord3logit(x, depoalpha),
-    linkinv = function(x) plot3logit:::linkinv_ord3logit(x, depoalpha)))
-
 }
 \keyword{internal}

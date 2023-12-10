@@ -18,8 +18,4 @@ v2vedge(v, edge)
 Given the coordinates of one of vertices, \code{\link[=v2vedge]{v2vedge()}} computes the
 coordinates of the vertex on the edge.
 }
-\examples{
-plot3logit:::v2vedge(c(1, 0, 0), 0.02)
-
-}
 \keyword{internal}

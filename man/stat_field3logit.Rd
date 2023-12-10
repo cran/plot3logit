@@ -25,10 +25,14 @@ object is passed to \code{data}. See secion \strong{Aesthetic mappings} of
 a \code{data.frame} structured like a fortified \code{field3logit} or a
 \code{multifield3logit} object.}
 
-\item{geom}{The geometric object to use display the data}
+\item{geom}{The geometric object to use to display the data, either as a
+\code{ggproto} \code{Geom} subclass or as a string naming the geom stripped of the
+\code{geom_} prefix (e.g. \code{"point"} rather than \code{"geom_point"})}
 
-\item{position}{Position adjustment, either as a string, or the result of
-a call to a position adjustment function.}
+\item{position}{Position adjustment, either as a string naming the adjustment
+(e.g. \code{"jitter"} to use \code{position_jitter}), or the result of a call to a
+position adjustment function. Use the latter if you need to change the
+settings of the adjustment.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -46,11 +50,14 @@ function \code{\link[grid:arrow]{arrow}} of package \code{\link[grid:grid-packag
 
 \item{...}{additional arguments passed through to \code{\link[ggtern:ggtern]{ggtern}}.}
 }
+\value{
+Layer of \code{ggplot2} package, object of class \code{LayerInstance}.
+}
 \description{
 \code{\link[=stat_field3logit]{stat_field3logit()}} adds a field to a \code{\link{gg3logit}} plot.
 }
 \examples{
-\dontrun{
+\donttest{
 data(cross_1year)
 
 mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)

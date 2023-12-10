@@ -8,15 +8,11 @@
 #'
 #' @inheritParams DeltaB2pc
 #'
-#' @return
-#' Named `list` of three components:
+#' @returns Named `list` of three components:
 #'
 #' \item{vo}{coordinates of vertex where the field originates from.}
 #' \item{vt}{coordinates of transition vertex.}
 #' \item{vs}{coordinates of vertex where the field is directed to.}
-#'
-#' @examples
-#' plot3logit:::DeltaB2vroles_cat3logit(c(0.3, 0.7))
 #'
 #' @keywords internal
 #' @name DeltaB2vroles

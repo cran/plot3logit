@@ -31,6 +31,7 @@ if the model is \emph{ordinal}.}
 }
 \value{
 A named \code{list} with three components:
+
 \item{status}{a \code{character} which may be either equal to
 \code{"p0"} or \code{"pc"}. The former value (\code{"p0"}) is taken
 when the point is the origin of the curve, whereas
@@ -47,10 +48,5 @@ Given the effect \eqn{\Delta^TB\in\textbf{R}^{1\times 2}} of a change
 \eqn{x\in\textbf{R}^k} on the linear predictor
 \eqn{x^TB\in\textbf{R}^{n\times 2}}, it computes
 the set of points that makes the curves of the field equally spaced.
-}
-\examples{
-plot3logit:::DeltaB2pc_cat3logit(c(0.3, 0.7))
-plot3logit:::DeltaB2pc_ord3logit(0.12, c(-0.2, 0.1))
-
 }
 \keyword{internal}

@@ -20,22 +20,7 @@ confregion(mu, Sig, conf = 0.95, npoints = 100)
 with ternary coordinates of the points of the ellipse.
 }
 \description{
-Given the parameters of the confidence ellipse in the
-space of covariate coefficiets, it returns the confidence
-region of the effect.
-}
-\examples{
-Ternary::TernaryPlot()
-Ternary::TernaryPolygon(
-  coordinates = plot3logit:::confregion(1:2, 0.3 * diag(2:1)),
-  col = grDevices::rgb(0, 0, 0.5, 0.2),
-  border = NA
-)
-Ternary::TernaryPolygon(
-  coordinates = plot3logit:::confregion(1:2, 0.1 * diag(2:1)),
-  col = grDevices::rgb(0, 0, 0.5, 0.2),
-  border = NA
-)
-
+Given the parameters of the confidence ellipse in the space of covariate
+coefficients, it returns the confidence region of the effect.
 }
 \keyword{internal}

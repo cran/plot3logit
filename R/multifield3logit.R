@@ -15,14 +15,14 @@
 #' @param drop if `TRUE`, a `field3logit` object is returned if the
 #'   subsetted `multifield3logit` object has length one.
 #'
-#' @return
-#' `S3` object of class `multifield3logit` structured as a named `list`.
+#' @returns `S3` object of class `multifield3logit` structured as a named
+#' `list`.
 #'
 #' @seealso
 #' [field3logit()].
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(cross_1year)
 #'
 #' mod0 <- nnet::multinom(employment_sit ~ ., data = cross_1year)

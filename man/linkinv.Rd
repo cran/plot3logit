@@ -40,7 +40,8 @@ and \eqn{\alpha^{(2)}} are stored (only for ordinal models), as
 defined in Equation (7) of \insertCite{santi2019;textual}{plot3logit}.}
 }
 \value{
-Numeric matrix \eqn{[0,\,1]^{n\times 3}} of probability distributions.
+Numeric matrix \eqn{[0,\,1]^{n\times 3}} of probability
+distributions.
 }
 \description{
 \code{linkinv_cat3logit} and \code{linkinv_ord3logit} compute the matrix

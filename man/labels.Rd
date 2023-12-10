@@ -13,6 +13,10 @@ labels(object) <- value
 \item{value}{a character with the new label (or labels in case of a
 \code{multifield3logit} object).}
 }
+\value{
+Object of same class of argument \code{object} (either \code{field3logit} or
+\code{multifield3logit}).
+}
 \description{
 It sets the labels of an existing \code{field3logit} or a \code{multifield3logit}
 object.

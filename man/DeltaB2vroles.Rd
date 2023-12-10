@@ -29,8 +29,4 @@ Named \code{list} of three components:
 the role of vertices of a field associated to a change in
 covariate values \eqn{\Delta\in\textbf{R}^k}.
 }
-\examples{
-plot3logit:::DeltaB2vroles_cat3logit(c(0.3, 0.7))
-
-}
 \keyword{internal}

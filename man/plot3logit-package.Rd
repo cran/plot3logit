@@ -63,7 +63,7 @@ and functions \code{\link[=field3logit]{field3logit()}} and \code{\link[=extract
 }
 
 \examples{
-\dontrun{
+\donttest{
 data(cross_1year)
 
 # Read from "nnet::multinom" (categorical logit)
@@ -102,7 +102,7 @@ gg3logit(field2) + stat_field3logit()
 \code{\link[=field3logit]{field3logit()}}, \code{\link[=gg3logit]{gg3logit()}}, \code{\link[=TernaryField]{TernaryField()}}.
 }
 \author{
-\strong{Maintainer}: Flavio Santi \email{flavio.santi@univr.it} (\href{https://orcid.org/0000-0002-2014-1981}{ORCID})
+\strong{Maintainer}: Flavio Santi \email{flavio.santi@unitn.it} (\href{https://orcid.org/0000-0002-2014-1981}{ORCID})
 
 Authors:
 \itemize{

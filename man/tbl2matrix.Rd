@@ -7,20 +7,13 @@
 tbl2matrix(x, .rownames = NULL)
 }
 \arguments{
-\item{n}{dimension of the space.}
+\item{x}{tibble to be converted.}
 
-\item{k}{order of the versor.}
-
-\item{simplify}{if \code{TRUE}, a \code{numeric} is returned, otherwise
-\code{versor} returns a column matrix.}
+\item{.rownames}{name of the column (character) of \code{x} containing the row
+names of the output matrix.}
 }
 \description{
-Given an \code{n}-dimensional space, the \code{k}-th versor is returned.
-}
-\examples{
-plot3logit:::versor(1, 3)
-plot3logit:::versor(3, 6)
-plot3logit:::versor(3, 6, FALSE)
-
+Given a \code{tibble} or a \code{data.frame} as input, \code{tbl2matrix} converts it to a
+matrix.
 }
 \keyword{internal}

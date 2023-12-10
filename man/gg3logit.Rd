@@ -18,6 +18,9 @@ specified (if specified, they will be overwritten).}
 
 \item{...}{additional arguments passed through to \code{\link[ggtern:ggtern]{ggtern}}.}
 }
+\value{
+Object of class \code{ggplot}.
+}
 \description{
 \code{gg3logit} initialises a \code{\link[ggplot2:ggplot]{ggplot}} object through
 \code{\link[ggtern:ggtern]{ggtern}}. If a \code{field3logit} or a \code{multifield3logit}
@@ -60,7 +63,7 @@ confidence regions) \emph{within} every field. Unlike variable \code{group},
 }
 
 \examples{
-\dontrun{
+\donttest{
 data(cross_1year)
 
 mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)

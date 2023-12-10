@@ -20,24 +20,4 @@ a \code{numeric} vector, a \code{character} or an \code{expression} (see
 \code{\link{field3logit}}), \code{get_vdelta} returns the \code{numeric} vector of
 covariate change \eqn{\Delta\in\textbf{R}^k}.
 }
-\examples{
-library(magrittr)
-
-# Example 1
-list(B = matrix(c(0.11, 0.07, -0.1, 0.09), 2)) \%>\%
-  extract3logit \%>\%
-  plot3logit:::get_vdelta(c(0, 1), .)
-
-# Example 2
-library(nnet)
-data(cross_1year)
-mod0 <- multinom(employment_sit ~ ., cross_1year)
-extract3logit(mod0) \%>\%
-  plot3logit:::get_vdelta('genderFemale', .)
-
-# Example 3
-extract3logit(mod0) \%>\%
-  plot3logit:::get_vdelta('-0.5 * genderFemale + hsscore', .)
-
-}
 \keyword{internal}

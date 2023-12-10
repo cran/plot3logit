@@ -9,10 +9,6 @@
 #' @param simplify if `TRUE` a matrix is returned; if `FALSE` the
 #'   output will be a `list`.
 #'
-#' @examples
-#' plot3logit:::convex_comb(c(0, 0.3, 0.5, 1), c(1, 0, 0), c(0, 1, 0))
-#' plot3logit:::convex_comb(c(0, 0.3, 0.5, 1), c(1, 0, 0), c(0, 1, 0), FALSE)
-#'
 #' @keywords internal
 convex_comb<- function(w, x, y, simplify = TRUE) {
   out <- sapply(w, function(w) { y + w * (x - y) }, simplify = simplify)
@@ -31,11 +27,6 @@ convex_comb<- function(w, x, y, simplify = TRUE) {
 #' @param simplify if `TRUE`, a `numeric` is returned, otherwise
 #'   `versor` returns a column matrix.
 #'
-#' @examples
-#' plot3logit:::versor(1, 3)
-#' plot3logit:::versor(3, 6)
-#' plot3logit:::versor(3, 6, FALSE)
-#'
 #' @keywords internal
 versor<- function(k, n, simplify = TRUE) {
   out <- rep(0, n)
@@ -48,18 +39,13 @@ versor<- function(k, n, simplify = TRUE) {
 
 #' Convert a tibble to a matrix
 #'
-#' Given an `n`-dimensional space, the `k`-th versor is returned.
+#' Given a `tibble` or a `data.frame` as input, `tbl2matrix` converts it to a
+#' matrix.
 #'
-#' @param n dimension of the space.
-#' @param k order of the versor.
-#' @param simplify if `TRUE`, a `numeric` is returned, otherwise
-#'   `versor` returns a column matrix.
-#'
-#' @examples
-#' plot3logit:::versor(1, 3)
-#' plot3logit:::versor(3, 6)
-#' plot3logit:::versor(3, 6, FALSE)
-#'
+#' @param x tibble to be converted.
+#' @param .rownames name of the column (character) of `x` containing the row
+#'   names of the output matrix.
+#' 
 #' @keywords internal
 tbl2matrix <- function(x, .rownames = NULL) {
   if (!is.null(.rownames)) {

@@ -41,12 +41,15 @@ display.}
 \code{\link[=stat_conf3logit]{stat_conf3logit()}} is added, otherwise only a \code{\link[=gg3logit]{gg3logit()}} object with the
 layer of \code{\link[=stat_field3logit]{stat_field3logit()}} is returned.}
 }
+\value{
+Object of class \code{ggplot}.
+}
 \description{
 \code{\link[=autoplot]{autoplot()}} creates a \code{\link{gg3logit}} plot and adds a field and its confidence
 regions. \code{\link[=autoplot]{autoplot()}} is a wrapper for \code{\link[=gg3logit]{gg3logit()}} and \code{\link[=stat_3logit]{stat_3logit()}}.
 }
 \examples{
-\dontrun{
+\donttest{
 data(cross_1year)
 
 mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)

@@ -14,8 +14,8 @@
 #' @param n number of points (curves of the field).
 #' @param edge width of the border of the ternary plot.
 #'
-#' @return
-#' A named `list` with three components:
+#' @returns A named `list` with three components:
+#' 
 #' \item{status}{a `character` which may be either equal to
 #'	 `"p0"` or `"pc"`. The former value (`"p0"`) is taken
 #'   when the point is the origin of the curve, whereas
@@ -25,11 +25,6 @@
 #' \item{fo}{the filter of the sides where the field
 #'   originates from.}
 #' \item{pp}{a `list` of ternary coordinates.}
-
-#'
-#' @examples
-#' plot3logit:::DeltaB2pc_cat3logit(c(0.3, 0.7))
-#' plot3logit:::DeltaB2pc_ord3logit(0.12, c(-0.2, 0.1))
 #'
 #' @name DeltaB2pc
 NULL

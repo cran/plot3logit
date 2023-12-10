@@ -23,10 +23,9 @@ and \code{linkinv}. The former is the link function, whereas
 the latter is its inverse.}
 }
 \value{
-Object of class \code{list}, where each component is a \code{list} of
-two components: the ternary coordinates of the starting point
-of the arrow, and the ternary coordinates of the tip of the
-arrow.
+Object of class \code{list}, where each component is a \code{list} of two
+components: the ternary coordinates of the starting point of the arrow, and
+the ternary coordinates of the tip of the arrow.
 }
 \description{
 Given the ternary coordinates of the starting point of the curve, it

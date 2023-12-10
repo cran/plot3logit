@@ -41,13 +41,18 @@ the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 \code{\link[=stat_conf3logit]{stat_conf3logit()}} is added, otherwise only the layer of
 \code{\link[=stat_field3logit]{stat_field3logit()}} is returned.}
 }
+\value{
+If \code{conf} is set to \code{FALSE} a layer of \code{ggplot} package is returned
+(object of class \code{LayerInstance}), otherwise, if \code{conf} is set to \code{TRUE},
+\code{stat_3logit} returns a list of two \code{ggplot2} layers (class \code{LayerInstance}).
+}
 \description{
 \code{\link[=stat_3logit]{stat_3logit()}} adds a field and confidence regions to a \code{\link{gg3logit}}
 plot. \code{\link[=stat_3logit]{stat_3logit()}} is a wrapper for stats \code{\link[=stat_field3logit]{stat_field3logit()}} and
 \code{\link[=stat_conf3logit]{stat_conf3logit()}} which are jointly applied.
 }
 \examples{
-\dontrun{
+\donttest{
 data(cross_1year)
 
 mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)

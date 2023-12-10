@@ -33,8 +33,8 @@ confidence region}.}
 to \code{\link[Ternary:AddToTernary]{Ternary::TernaryPolygon()}}.}
 }
 \value{
-An object of class \code{field3logit} with confidence regions included, if
-computed within \code{\link[=TernaryField]{TernaryField()}}.
+An object of class \code{field3logit} with confidence regions included,
+if computed within \code{\link[=TernaryField]{TernaryField()}}.
 }
 \description{
 \code{\link[=TernaryField]{TernaryField()}} adds the vector field returned by \code{\link[=field3logit]{field3logit()}} to an

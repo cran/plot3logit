@@ -68,7 +68,8 @@ the generic \code{fortify}.}
 subsetted \code{multifield3logit} object has length one.}
 }
 \value{
-\code{S3} object of class \code{multifield3logit} structured as a named \code{list}.
+\code{S3} object of class \code{multifield3logit} structured as a named
+\code{list}.
 }
 \description{
 Methods of \code{S3} class \code{multifield3logit} handle multiple \code{fields3logit}
@@ -76,7 +77,7 @@ objects simultaneously and permit new \code{multifield3logit} objects to be
 easily created by means of the sum operator "\code{+}".
 }
 \examples{
-\dontrun{
+\donttest{
 data(cross_1year)
 
 mod0 <- nnet::multinom(employment_sit ~ ., data = cross_1year)

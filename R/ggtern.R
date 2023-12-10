@@ -62,10 +62,12 @@ Conf3Logit <- ggplot2::ggproto('StatConfidenceTern', Stat,
 #'   confidence regions) *within* every field. Unlike variable `group`,
 #'  `idarrow` is not a global identifier of graphical objects.
 #' 
+#' @returns Object of class `ggplot`.
+#' 
 #' @family gg functions
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(cross_1year)
 #'
 #' mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
@@ -118,10 +120,12 @@ gg3logit <- function (data = NULL, mapping = aes(), ...) {
 #' @param arrow. specification for arrow heads, as created by
 #'   function [`arrow`][grid::arrow] of package [`grid`][grid::grid-package].
 #'
+#' @returns Layer of `ggplot2` package, object of class `LayerInstance`.
+#'
 #' @family gg functions
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(cross_1year)
 #'
 #' mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
@@ -180,11 +184,13 @@ stat_field3logit <- function(mapping = aes(), data = NULL, geom = 'segment',
 #' [stat_conf3logit()] adds a field to a [`gg3logit`] plot.
 #'
 #' @inheritParams stat_field3logit
+#' 
+#' @returns Layer of `ggplot2` package, object of class `LayerInstance`.
 #'
 #' @family gg functions
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(cross_1year)
 #'
 #' mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
@@ -251,10 +257,14 @@ stat_conf3logit <- function(mapping = aes(), data = NULL, geom = 'polygon',
 #'   [stat_conf3logit()] is added, otherwise only the layer of
 #'   [stat_field3logit()] is returned.
 #'
+#' @returns If `conf` is set to `FALSE` a layer of `ggplot` package is returned
+#' (object of class `LayerInstance`), otherwise, if `conf` is set to `TRUE`,
+#' `stat_3logit` returns a list of two `ggplot2` layers (class `LayerInstance`).
+#' 
 #' @family gg functions
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(cross_1year)
 #'
 #' mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
@@ -306,10 +316,12 @@ stat_3logit <- function(mapping_field = aes(), mapping_conf = aes(),
 #'   layer of [stat_field3logit()] is returned.
 #' @param object an object of class `field3logit` or `multifield3logit`.
 #' 
+#' @returns Object of class `ggplot`.
+#' 
 #' @family gg functions
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(cross_1year)
 #'
 #' mod0 <- nnet::multinom(employment_sit ~ gender + finalgrade, data = cross_1year)
