@@ -3,8 +3,8 @@
 \docType{package}
 \encoding{UTF-8}
 \name{plot3logit-package}
+\alias{plot3logit}
 \alias{plot3logit-package}
-\alias{_PACKAGE}
 \title{Ternary Plots for Trinomial Regression Models}
 \description{
 An implementation of the ternary plot for interpreting regression
@@ -36,13 +36,18 @@ package \code{\link[ggtern:ggtern_package]{ggtern}}
 
 Graphical representation based on \strong{standard graphics} is made available
 through the package \code{Ternary} \insertCite{smith2017}{plot3logit} by function
-\code{\link[=TernaryField]{TernaryField()}} and in particular by the method \code{\link[=plot.field3logit]{plot}}
+\code{\link[=TernaryField]{TernaryField()}} and in particular by the method \code{\link[=plot.field3logit]{plot()}}
 of \code{field3logit} class.
 
 Since version 2.0.0, \code{plot3logit} can also compute and draw confidence
-regions associated to the covariate effects. See the vignette of the
-package (type \code{vignette("plot3logit-overview")}) and the help of function
-\code{\link[=stat_conf3logit]{stat_conf3logit()}} for some examples.
+regions associated to the covariate effects. See the package vignettes:
+\itemize{
+\item type \code{vignette("plot3logit-overview")} for an overview of the package
+\item type \code{vignette("plot3logit-main")} for a presentation of all features
+(the vignette is based on \insertCite{santi2022;nobrackets}{plot3logit})
+}
+
+and the help of function \code{\link[=stat_conf3logit]{stat_conf3logit()}} for some examples.
 }
 \section{Compatibility}{
 

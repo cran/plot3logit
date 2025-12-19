@@ -29,13 +29,16 @@
 #'
 #' Graphical representation based on **standard graphics** is made available
 #' through the package `Ternary` \insertCite{smith2017}{plot3logit} by function
-#' [TernaryField()] and in particular by the method [`plot`][plot.field3logit]
+#' [TernaryField()] and in particular by the method [`plot()`][plot.field3logit]
 #' of `field3logit` class.
 #'
 #' Since version 2.0.0, `plot3logit` can also compute and draw confidence
-#' regions associated to the covariate effects. See the vignette of the
-#' package (type `vignette("plot3logit-overview")`) and the help of function
-#' [stat_conf3logit()] for some examples.
+#' regions associated to the covariate effects. See the package vignettes:
+#' * type `vignette("plot3logit-overview")` for an overview of the package
+#' * type `vignette("plot3logit-main")` for a presentation of all features
+#' (the vignette is based on \insertCite{santi2022;nobrackets}{plot3logit})
+#' 
+#' and the help of function [stat_conf3logit()] for some examples.
 #'
 #' @section Compatibility:
 #' Function [field3logit()] can read trinomial regression estimates from the

@@ -125,9 +125,10 @@ provided by package \code{Ternary}. See functions \code{\link[=gg3logit]{gg3logi
 for plotting through the package \code{\link[ggtern:ggtern_package]{ggtern}} based on the
 grammar of graphics.
 
-Methods \code{\link[=as.data.frame]{as.data.frame()}}, \code{\link[=as_tibble]{as_tibble()}}, \code{\link[=fortify]{fortify()}} and \code{\link[=tidy]{tidy()}} permits
-the graphical information of a \code{field3logit} object to be exported in a
-standardised format (either a \code{data.frame} or a \code{tibble}).
+Methods \code{\link[=as.data.frame]{as.data.frame()}}, \code{\link[=as_tibble.field3logit]{as_tibble()}},
+\link[=fortify.field3logit]{fortify()} and \code{\link[=tidy]{tidy()}} permits the graphical
+information of a \code{field3logit} object to be exported in a standardised format
+(either a \code{data.frame} or a \code{tibble}).
 
 See \insertCite{santi2022;textual}{plot3logit} for details and examples.
 }
